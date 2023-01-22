@@ -33,6 +33,7 @@ public class PrincipalUserView {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(0, 0, 0));
@@ -74,7 +75,7 @@ public class PrincipalUserView {
 		
 		btnOpenAlterarSenha = new JButton("Alterar Senha");
 		btnOpenAlterarSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnOpenAlterarSenha.setBounds(10, 11, 388, 31);
+		btnOpenAlterarSenha.setBounds(608, 372, 220, 25);
 		frame.getContentPane().add(btnOpenAlterarSenha);
 	}
 

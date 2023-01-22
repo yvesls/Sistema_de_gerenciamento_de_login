@@ -9,11 +9,6 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 public class LoginView {
-	/**
-	 * @author yvesl View que contém o CRUD para manipulação dos registros dos
-	 *         usuários cadastrados PERMITIDO DE ACESSO: Todos
-	 */
-
 	private JFrame frame;
 	private JTextField txtEmail;
 	private JTextField txtSenha;
@@ -21,6 +16,12 @@ public class LoginView {
 	private JButton btnOpenRegistrar;
 	private JLabel lblErro;
 	
+	/**
+	 * @author yvesl 
+	 * Tela de login de todos os usuários
+	 * PERMITIDO DE ACESSO: Todos
+	 */
+
 	public LoginView() {
 		initialize();
 	}

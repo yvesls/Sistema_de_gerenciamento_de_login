@@ -7,7 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class PrincipalAdminView {
 
@@ -15,8 +20,15 @@ public class PrincipalAdminView {
 	private JLabel lblUserName;
 	private JLabel lblUserTypeName;
 	private JButton btnOpenNotificacoes;
-	private JButton btnManterUsuarios;
-	private JButton btnOpenEnviarNotificacoes;
+	private JButton btnOpenNotificarTodosUsuarios;
+	private JTable table;
+	private JButton btnBuscarUsuarios;
+	private DefaultTableModel model;
+	private JTable tableSelecionado;
+	private DefaultTableModel modelSelecionado;
+	private JTextField textFieldCampoBuscar;
+	private JButton btnExcluirUsuario;
+	private JButton btnOpenNotificarUsuarioSelecionado;
 	
 	/**
 	 * @author yvesl
@@ -35,6 +47,7 @@ public class PrincipalAdminView {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(0, 0, 0));
@@ -74,15 +87,59 @@ public class PrincipalAdminView {
 		btnOpenNotificacoes.setBounds(781, 11, 47, 23);
 		panel.add(btnOpenNotificacoes);
 		
-		btnManterUsuarios = new JButton("Alterar Usuários");
-		btnManterUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnManterUsuarios.setBounds(10, 11, 371, 33);
-		frame.getContentPane().add(btnManterUsuarios);
+		btnOpenNotificarTodosUsuarios = new JButton("Notificar todos os usuários");
+		btnOpenNotificarTodosUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnOpenNotificarTodosUsuarios.setBounds(10, 373, 215, 26);
+		frame.getContentPane().add(btnOpenNotificarTodosUsuarios);
 		
-		btnOpenEnviarNotificacoes = new JButton("Enviar Notificações");
-		btnOpenEnviarNotificacoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnOpenEnviarNotificacoes.setBounds(457, 11, 371, 33);
-		frame.getContentPane().add(btnOpenEnviarNotificacoes);
+		JLabel lblNewLabel = new JLabel("Nome:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setBounds(10, 11, 57, 33);
+		frame.getContentPane().add(lblNewLabel);
+		
+		textFieldCampoBuscar = new JTextField();
+		textFieldCampoBuscar.setBounds(61, 13, 290, 33);
+		frame.getContentPane().add(textFieldCampoBuscar);
+		textFieldCampoBuscar.setColumns(10);
+		
+		btnBuscarUsuarios = new JButton("Buscar");
+		btnBuscarUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnBuscarUsuarios.setBounds(365, 11, 101, 33);
+		frame.getContentPane().add(btnBuscarUsuarios);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 55, 818, 275);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		model = new DefaultTableModel();
+		Object[] column = {"ID", "Nome", "CPF", "Data de cadastro", "Notificações enviadas", "Notificações lidas"};
+		model.setColumnIdentifiers(column);
+		table.setModel(model);
+		scrollPane.setViewportView(table);
+		
+		JScrollPane scrollPaneFuncSelecionado = new JScrollPane();
+		tableSelecionado = new JTable();
+		tableSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		modelSelecionado = new DefaultTableModel();
+		Object[] column1 = {"", "", "", "", "", ""};
+		modelSelecionado.setColumnIdentifiers(column1);
+		tableSelecionado.setModel(modelSelecionado);
+		tableSelecionado.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
+		scrollPaneFuncSelecionado.setViewportView(tableSelecionado);
+		scrollPaneFuncSelecionado.setBounds(10, 341, 818, 26);
+		frame.getContentPane().add(scrollPaneFuncSelecionado);
+		
+		btnExcluirUsuario = new JButton("Excluir usuário");
+		btnExcluirUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnExcluirUsuario.setBounds(685, 371, 143, 26);
+		frame.getContentPane().add(btnExcluirUsuario);
+		
+		btnOpenNotificarUsuarioSelecionado = new JButton("Notificar usuário");
+		btnOpenNotificarUsuarioSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnOpenNotificarUsuarioSelecionado.setBounds(532, 371, 143, 26);
+		frame.getContentPane().add(btnOpenNotificarUsuarioSelecionado);
 	}
 
 	public JFrame getFrame() {
@@ -97,15 +154,43 @@ public class PrincipalAdminView {
 		return lblUserTypeName;
 	}
 
+	public JButton getBtnOpenNotificarTodosUsuarios() {
+		return btnOpenNotificarTodosUsuarios;
+	}
+
 	public JButton getBtnOpenNotificacoes() {
 		return btnOpenNotificacoes;
 	}
 
-	public JButton getBtnManterUsuarios() {
-		return btnManterUsuarios;
+	public JTable getTable() {
+		return table;
 	}
 
-	public JButton getBtnOpenEnviarNotificacoes() {
-		return btnOpenEnviarNotificacoes;
+	public JButton getBtnBuscarUsuarios() {
+		return btnBuscarUsuarios;
+	}
+
+	public DefaultTableModel getModel() {
+		return model;
+	}
+
+	public JTable getTableSelecionado() {
+		return tableSelecionado;
+	}
+
+	public DefaultTableModel getModelSelecionado() {
+		return modelSelecionado;
+	}
+
+	public JTextField getTextFieldCampoBuscar() {
+		return textFieldCampoBuscar;
+	}
+
+	public JButton getBtnExcluirUsuario() {
+		return btnExcluirUsuario;
+	}
+
+	public JButton getBtnOpenNotificarUsuarioSelecionado() {
+		return btnOpenNotificarUsuarioSelecionado;
 	}
 }
