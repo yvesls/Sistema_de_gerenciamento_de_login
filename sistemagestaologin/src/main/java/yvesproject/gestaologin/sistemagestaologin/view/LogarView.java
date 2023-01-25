@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class LoginView {
+public class LogarView {
 	private JFrame frame;
 	private JTextField txtEmail;
 	private JTextField txtSenha;
@@ -22,7 +22,7 @@ public class LoginView {
 	 * PERMITIDO DE ACESSO: Todos
 	 */
 
-	public LoginView() {
+	public LogarView() {
 		initialize();
 	}
 	

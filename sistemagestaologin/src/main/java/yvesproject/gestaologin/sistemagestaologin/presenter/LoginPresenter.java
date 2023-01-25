@@ -2,14 +2,14 @@ package yvesproject.gestaologin.sistemagestaologin.presenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import yvesproject.gestaologin.sistemagestaologin.view.LoginView;
+import yvesproject.gestaologin.sistemagestaologin.view.LogarView;
 import yvesproject.gestaologin.sistemagestaologin.view.PrincipalAdminView;
 import yvesproject.gestaologin.sistemagestaologin.view.RegistrarView;
 
 public class LoginPresenter {
-	private LoginView view;
+	private LogarView view;
 
-	public LoginPresenter(LoginView view) {
+	public LoginPresenter(LogarView view) {
 		this.view = view;
 		regatarAcoesView();
 	}

@@ -3,7 +3,7 @@ package yvesproject.gestaologin.sistemagestaologin;
 import java.awt.EventQueue;
 
 import yvesproject.gestaologin.sistemagestaologin.presenter.LoginPresenter;
-import yvesproject.gestaologin.sistemagestaologin.view.LoginView;
+import yvesproject.gestaologin.sistemagestaologin.view.LogarView;
 
 public class App {
 
@@ -11,7 +11,7 @@ public class App {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginView window = new LoginView();
+					LogarView window = new LogarView();
 					new LoginPresenter(window);
 				} catch (Exception e) {
 					e.printStackTrace();

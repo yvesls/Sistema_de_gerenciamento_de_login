@@ -105,4 +105,8 @@ public class RegistrarView {
 	public JLabel getLblErro() {
 		return lblErro;
 	}
+
+	public JTextField getTxtCPF() {
+		return txtCPF;
+	}
 }
