@@ -1,7 +1,6 @@
 package yvesproject.gestaologin.sistemagestaologin;
 
 import java.awt.EventQueue;
-
 import yvesproject.gestaologin.sistemagestaologin.presenter.LoginPresenter;
 import yvesproject.gestaologin.sistemagestaologin.view.LogarView;
 

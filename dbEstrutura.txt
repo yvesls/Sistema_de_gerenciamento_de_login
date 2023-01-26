@@ -1,0 +1,26 @@
+CREATE TABLE Usuario (
+    idUsuario            INTEGER   PRIMARY KEY AUTOINCREMENT
+                                   NOT NULL,
+    email                TEXT (45) UNIQUE,
+    senha                TEXT (10) NOT NULL,
+    tipo                 TEXT (45) NOT NULL,
+    status               TEXT (45) NOT NULL,
+    nome                 TEXT (45) NOT NULL,
+    cpf                  TEXT (11) NOT NULL
+                                   UNIQUE,
+    notificacoesEnviadas INTEGER   NOT NULL,
+    notificacoesLidas    INTEGER   NOT NULL,
+    dataCadastro         TEXT (25) NOT NULL
+);
+
+CREATE TABLE Notificacoes (
+    idNotificacao  INTEGER   PRIMARY KEY AUTOINCREMENT
+                             NOT NULL,
+    idRemetente    INTEGER   CONSTRAINT fkRemetente REFERENCES Notificacoes (idNotificacao) 
+                             NOT NULL,
+    idDestinatario INTEGER   NOT NULL
+                             CONSTRAINT fkDestinatario REFERENCES Notificacoes (idNotificacao),
+    descricao      TEXT (45) NOT NULL,
+    data           TEXT (20) NOT NULL,
+    status         TEXT (45) NOT NULL
+);

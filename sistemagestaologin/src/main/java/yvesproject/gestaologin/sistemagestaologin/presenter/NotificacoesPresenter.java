@@ -35,11 +35,11 @@ public class NotificacoesPresenter {
 				DefaultTableModel modelo = (DefaultTableModel) view.getTableSelecionado().getModel();
 				modelo.setNumRows(0);
 				for (Notificacao not : nots) {
-					if (not.getId() == Integer
+					if (not.getIdNotificacao() == Integer
 							.valueOf(String.valueOf(view.getTable().getValueAt(view.getTable().getSelectedRow(), 0)))) {
 						notSelecionada = new Notificacao();
 						notSelecionada = not;
-						modelo.addRow(new Object[] { notSelecionada.getId(), notSelecionada.getDescricao(),
+						modelo.addRow(new Object[] { notSelecionada.getIdNotificacao(), notSelecionada.getDescricao(),
 								notSelecionada.getData(), notSelecionada.getStatus()});
 					}
 				}

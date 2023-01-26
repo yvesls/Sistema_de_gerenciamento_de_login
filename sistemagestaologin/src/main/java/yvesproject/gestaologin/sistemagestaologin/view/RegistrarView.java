@@ -22,6 +22,7 @@ public class RegistrarView {
 	private JButton btnRegistrar;
 	private JLabel lblErro;
 	private JTextField txtCPF;
+	private JTextField txtNome;
 	
 	public RegistrarView() {
 		initialize();
@@ -79,6 +80,17 @@ public class RegistrarView {
 		lblCpf.setBounds(216, 298, 157, 27);
 		frame.getContentPane().add(lblCpf);
 		
+		txtNome = new JTextField();
+		txtNome.setBounds(216, 380, 401, 40);
+		txtNome.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		txtNome.setColumns(10);
+		frame.getContentPane().add(txtNome);
+		
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(216, 350, 157, 27);
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		frame.getContentPane().add(lblNome);
+		
 		txtCPF = new JTextField();
 		txtCPF.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		txtCPF.setColumns(10);
@@ -108,5 +120,9 @@ public class RegistrarView {
 
 	public JTextField getTxtCPF() {
 		return txtCPF;
+	}
+
+	public JTextField getTxtNome() {
+		return txtNome;
 	}
 }

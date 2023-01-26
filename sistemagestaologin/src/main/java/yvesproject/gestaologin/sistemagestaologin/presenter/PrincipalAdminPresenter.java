@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import yvesproject.gestaologin.sistemagestaologin.model.User;
+import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 import yvesproject.gestaologin.sistemagestaologin.view.EnviarNotificacaoAllUsersView;
 import yvesproject.gestaologin.sistemagestaologin.view.EnviarNotificacaoUserView;
 import yvesproject.gestaologin.sistemagestaologin.view.NotificacoesView;
@@ -20,8 +20,8 @@ import yvesproject.gestaologin.sistemagestaologin.view.PrincipalAdminView;
 
 public class PrincipalAdminPresenter {
 	private PrincipalAdminView view;
-	private User userSelecionado;
-	private ArrayList<User> users;
+	private Usuario userSelecionado;
+	private ArrayList<Usuario> users;
 
 	public PrincipalAdminPresenter(PrincipalAdminView view) {
 		this.view = view;
@@ -43,12 +43,12 @@ public class PrincipalAdminPresenter {
 			public void mousePressed(MouseEvent me) {
 				DefaultTableModel modelo = (DefaultTableModel) view.getTableSelecionado().getModel();
 				modelo.setNumRows(0);
-				for (User user : users) {
-					if (user.getId() == Integer
+				for (Usuario user : users) {
+					if (user.getIdUsuario() == Integer
 							.valueOf(String.valueOf(view.getTable().getValueAt(view.getTable().getSelectedRow(), 0)))) {
-						userSelecionado = new User();
+						userSelecionado = new Usuario();
 						userSelecionado = user;
-						modelo.addRow(new Object[] { userSelecionado.getId(), userSelecionado.getNome(),
+						modelo.addRow(new Object[] { userSelecionado.getIdUsuario(), userSelecionado.getNome(),
 								userSelecionado.getCpf(), userSelecionado.getDataCadastro(), userSelecionado.getState(),
 								userSelecionado.getNotEnviadas(), userSelecionado.getNotLidas()});
 					}

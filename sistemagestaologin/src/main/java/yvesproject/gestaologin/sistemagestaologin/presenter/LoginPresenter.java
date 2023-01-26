@@ -12,6 +12,7 @@ public class LoginPresenter {
 	public LoginPresenter(LogarView view) {
 		this.view = view;
 		regatarAcoesView();
+		
 	}
 
 	private void regatarAcoesView() {
