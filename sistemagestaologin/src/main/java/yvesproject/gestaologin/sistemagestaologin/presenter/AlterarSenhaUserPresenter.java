@@ -18,7 +18,7 @@ public class AlterarSenhaUserPresenter {
 		view.getBtnSalvarNovaSenha().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PrincipalUserView window = new PrincipalUserView();
-				new PrincipalUserPresenter(window);
+				new PrincipalUserPresenter(window, null);
 				// Valida a nova senha e registra-a
 				view.getFrame().setVisible(false);
 			}

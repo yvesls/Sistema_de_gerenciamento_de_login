@@ -31,7 +31,7 @@ public class RegistrarView {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds(100,100, 854, 488);
+		frame.setBounds(100,100, 854, 550);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
@@ -43,29 +43,29 @@ public class RegistrarView {
 		frame.getContentPane().add(lblNomeCentral);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(216, 166, 401, 40);
+		txtEmail.setBounds(216, 139, 401, 40);
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		frame.getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		txtSenha = new JTextField();
-		txtSenha.setBounds(216, 247, 401, 40);
+		txtSenha.setBounds(216, 218, 401, 40);
 		txtSenha.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		txtSenha.setColumns(10);
 		frame.getContentPane().add(txtSenha);
 		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(216, 137, 64, 29);
+		lblEmail.setBounds(216, 109, 64, 29);
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		frame.getContentPane().add(lblEmail);
 		
 		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(216, 217, 157, 27);
+		lblSenha.setBounds(216, 190, 157, 27);
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		frame.getContentPane().add(lblSenha);
 		
 		btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setBounds(500, 396, 116, 31);
+		btnRegistrar.setBounds(501, 444, 116, 31);
 		btnRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		frame.getContentPane().add(btnRegistrar);
 		
@@ -77,7 +77,7 @@ public class RegistrarView {
 		
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblCpf.setBounds(216, 298, 157, 27);
+		lblCpf.setBounds(216, 269, 157, 27);
 		frame.getContentPane().add(lblCpf);
 		
 		txtNome = new JTextField();
@@ -94,7 +94,7 @@ public class RegistrarView {
 		txtCPF = new JTextField();
 		txtCPF.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		txtCPF.setColumns(10);
-		txtCPF.setBounds(216, 325, 401, 40);
+		txtCPF.setBounds(216, 299, 401, 40);
 		frame.getContentPane().add(txtCPF);
 	}
 

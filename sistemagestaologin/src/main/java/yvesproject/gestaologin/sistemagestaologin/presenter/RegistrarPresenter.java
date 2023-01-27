@@ -10,6 +10,7 @@ import com.pss.senha.validacao.ValidadorSenha;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
+import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 import yvesproject.gestaologin.sistemagestaologin.view.RegistrarView;
 
@@ -18,6 +19,8 @@ public class RegistrarPresenter {
 	private ValidadorSenha validadorSenha;
 	private int validadorCamposPreenchidos;
 	private Usuario novoUsuario;
+	private Notificacao notificacao;
+	private int idGerado;
 
 	public RegistrarPresenter(RegistrarView view) {
 		this.view = view;
@@ -49,7 +52,7 @@ public class RegistrarPresenter {
 						// valida o tamanho do cpf (infelizmente só possui essa validação até o momento)
 						validadorCamposPreenchidos++;
 					} else {
-						JOptionPane.showMessageDialog(null, "Digite somente números para o CPF.", "Atenção",
+						JOptionPane.showMessageDialog(null, "CPF incorreto. Falta dados ou precisa digitar somente números.", "Atenção",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
@@ -63,8 +66,14 @@ public class RegistrarPresenter {
 					if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIsUsuarios()) {
 						// registrar usuário comum
 						novoUsuario = new Usuario(view.getTxtEmail().getText(), view.getTxtSenha().getText(), "usuario",
-								"aguardando", view.getTxtNome().getText(), view.getTxtCPF().getText(), 0, 0);
-						if (registrarNovoUsuario()) {
+								"aguardando autetificação", view.getTxtNome().getText(), view.getTxtCPF().getText(), 0, 0);
+						idGerado = registrarNovoUsuario();
+						if (idGerado != -1) {
+							if(!enviarNotificacaoDeAutentificacao()) {
+								JOptionPane.showMessageDialog(null,
+										"Ocorreu um erro inesperado ao enviar a notificação de autorização para login.",
+										"Atenção", JOptionPane.INFORMATION_MESSAGE);
+							}
 							JOptionPane.showMessageDialog(null, "Registrado com sucesso.", "Sucesso",
 									JOptionPane.INFORMATION_MESSAGE);
 							view.getFrame().setVisible(false);
@@ -78,7 +87,8 @@ public class RegistrarPresenter {
 						novoUsuario = new Usuario(view.getTxtEmail().getText(), view.getTxtSenha().getText(),
 								"administrador", "ativo", view.getTxtNome().getText(), view.getTxtCPF().getText(), 0,
 								0);
-						if (registrarNovoUsuario()) {
+						idGerado = registrarNovoUsuario();
+						if (idGerado != -1) {
 							JOptionPane.showMessageDialog(null, "Registrado com sucesso.", "Sucesso",
 									JOptionPane.INFORMATION_MESSAGE);
 							// fecha a janela
@@ -89,16 +99,25 @@ public class RegistrarPresenter {
 									"Atenção", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
-
+				}else {
 				}
 			}
 		});
 	}
 
 	// registra o novo usuário
-	public boolean registrarNovoUsuario() {
+	public int registrarNovoUsuario() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().salvar(novoUsuario)) {
+		return ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().salvar(novoUsuario);
+	}
+	
+	public boolean enviarNotificacaoDeAutentificacao() {
+		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
+		this.notificacao = new Notificacao(this.idGerado, 1, "O usuário "+ this.novoUsuario.getNome() +" solicita autorização de login.", "não lida");
+		if(ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(this.notificacao)) {
+			novoUsuario = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuarioPorId(idGerado);
+			novoUsuario.setNotEnviadas(1);
+			ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizar(novoUsuario);
 			return true;
 		}
 		return false;

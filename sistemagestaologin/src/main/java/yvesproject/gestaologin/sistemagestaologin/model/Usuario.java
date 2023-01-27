@@ -91,4 +91,16 @@ public class Usuario {
 	public String getSenha() {
 		return senha;
 	}
+
+	public void setNotEnviadas(int notEnviadas) {
+		this.notEnviadas = notEnviadas;
+	}
+
+	public void setNotLidas(int notLidas) {
+		this.notLidas = notLidas;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
 }

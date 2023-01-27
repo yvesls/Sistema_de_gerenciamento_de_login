@@ -12,7 +12,7 @@ public class ConexaoSQLiteDAO {
 		String url = "jdbc:sqlite:DdModuloLoginUsuario.db";
 		try {
 			setConexao(DriverManager.getConnection(url));
-			System.out.println(conexao);
+			//System.out.println(conexao);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

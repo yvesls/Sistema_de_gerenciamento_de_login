@@ -59,4 +59,10 @@ public class Notificacao {
 	public int getIdDestinatario() {
 		return idDestinatario;
 	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 }

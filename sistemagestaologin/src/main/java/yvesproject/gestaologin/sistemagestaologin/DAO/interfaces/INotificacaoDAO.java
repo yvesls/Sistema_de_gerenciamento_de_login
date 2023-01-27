@@ -1,8 +1,10 @@
 package yvesproject.gestaologin.sistemagestaologin.DAO.interfaces;
 
+import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
+
 public interface INotificacaoDAO {
 	
-	public boolean salvar();
+	public boolean salvar(Notificacao notificacao);
 	
 	public boolean remover();
 }

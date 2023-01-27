@@ -18,6 +18,7 @@ public class NotificacoesView {
 	private JTable tableSelecionado;
 	private DefaultTableModel modelSelecionado;
 	private JButton btnMarcarComoLida;
+	private JButton btnFechar;
 	
 	/**
 	 * @author yvesl
@@ -45,7 +46,7 @@ public class NotificacoesView {
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		model = new DefaultTableModel();
-		Object[] column1 = {"Descrição", "Data", "status"};
+		Object[] column1 = {"id", "Descrição", "status", "Data"};
 		model.setColumnIdentifiers(column1);
 		table.setModel(model);
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
@@ -58,7 +59,7 @@ public class NotificacoesView {
 		tableSelecionado = new JTable();
 		tableSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		modelSelecionado = new DefaultTableModel();
-		Object[] column2 = {"", "", ""};
+		Object[] column2 = {"", "", "", ""};
 		modelSelecionado.setColumnIdentifiers(column2);
 		tableSelecionado.setModel(modelSelecionado);
 		tableSelecionado.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
@@ -67,10 +68,15 @@ public class NotificacoesView {
 		scrollPaneNotSelecionado.setBounds(37, 361, 766, 24);
 		frame.getContentPane().add(scrollPaneNotSelecionado);
 		
-		btnMarcarComoLida = new JButton("Marcar como lida");
+		btnMarcarComoLida = new JButton("Validar usuário");
 		btnMarcarComoLida.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnMarcarComoLida.setBounds(586, 402, 217, 30);
 		frame.getContentPane().add(btnMarcarComoLida);
+		
+		btnFechar = new JButton("Fechar");
+		btnFechar.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnFechar.setBounds(37, 402, 217, 30);
+		frame.getContentPane().add(btnFechar);
 	}
 
 	public JFrame getFrame() {
@@ -95,5 +101,9 @@ public class NotificacoesView {
 
 	public JButton getBtnMarcarComoLida() {
 		return btnMarcarComoLida;
+	}
+
+	public JButton getBtnFechar() {
+		return btnFechar;
 	}
 }

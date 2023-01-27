@@ -4,7 +4,7 @@ import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 
 public interface IUsuarioDAO {
 	
-	public boolean salvar(Usuario usuario);
+	public int salvar(Usuario usuario);
 
 	public boolean remover();
 }
