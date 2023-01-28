@@ -29,7 +29,7 @@ public class PrincipalUserView {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds( 100,100, 854, 488);
+		frame.setBounds( 100,100, 945, 488);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -39,7 +39,7 @@ public class PrincipalUserView {
 		panel.setForeground(new Color(0, 0, 0));
 		panel.setBorder(new MatteBorder(6, 0, 0, 0, (Color) new Color(128, 128, 128)));
 		panel.setBackground(new Color(249, 249, 249));
-		panel.setBounds(0, 408, 838, 41);
+		panel.setBounds(0, 408, 929, 41);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -75,7 +75,7 @@ public class PrincipalUserView {
 		
 		btnOpenAlterarSenha = new JButton("Alterar Senha");
 		btnOpenAlterarSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnOpenAlterarSenha.setBounds(608, 372, 220, 25);
+		btnOpenAlterarSenha.setBounds(699, 372, 220, 25);
 		frame.getContentPane().add(btnOpenAlterarSenha);
 	}
 

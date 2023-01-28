@@ -24,16 +24,19 @@ import yvesproject.gestaologin.sistemagestaologin.view.NotificacoesView;
 import yvesproject.gestaologin.sistemagestaologin.view.PrincipalAdminView;
 
 public class PrincipalAdminPresenter extends Subject implements Observer {
-	private PrincipalAdminPresenter thisPresenter;
 	private PrincipalAdminView view;
 	private Usuario userSelecionado;
 	private ArrayList<Usuario> users;
 	private Usuario adminLogado;
 	private NotificacoesPresenter notificacoesPresenter;
+	private EnviarNotificacaoUserPresenter enviarNotUserPresenter;
+	private EnviarNotificacaoAllUsersPresenter enviarNotAllUsersPresenter;
+	private int numNotificacoes;
 
 	public PrincipalAdminPresenter(PrincipalAdminView view, Usuario adminLogado) {
 		this.view = view;
 		this.adminLogado = adminLogado;
+		exibeStatusLogin();
 		this.userSelecionado = null;
 		this.users = null;
 		regatarAcoesView();
@@ -43,9 +46,7 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 		view.getBtnOpenNotificarTodosUsuarios().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// inicia o presenter e view que permite o envio de mensagens para todos os
-				// usuários
-				EnviarNotificacaoAllUsersView window = new EnviarNotificacaoAllUsersView();
-				new EnviarNotificacaoAllUsersPresenter(window);
+				enviarNotAllUsers();
 			}
 		});
 
@@ -79,6 +80,13 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 					public void run() {
 						if (userSelecionado != null) {
 							// confirma a ação do administrador
+							JOptionPane.showMessageDialog(null, "Tem certeza que deseja excluir este usuário?", "Atenção",
+									JOptionPane.INFORMATION_MESSAGE);
+							ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
+							if(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().remover(userSelecionado.getIdUsuario())) {
+								JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso.", "Sucesso",
+										JOptionPane.INFORMATION_MESSAGE);
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "É preciso selecionar um usuário primeiro!");
 						}
@@ -92,10 +100,8 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						if (userSelecionado != null) {
-							// inicia o presenter e view que permite o envio de mensagens para o usuário
-							// selecionado
-							EnviarNotificacaoUserView window = new EnviarNotificacaoUserView();
-							new EnviarNotificacaoUserPresenter(window);
+							// inicia o presenter e view que permite o envio de mensagens para o usuário selecionado
+							enviarNotUser();
 						} else {
 							JOptionPane.showMessageDialog(null, "É preciso selecionar um usuário primeiro!");
 						}
@@ -109,6 +115,13 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						// realiza o processo de busca e exibe na tabela
+						if(!view.getTextFieldCampoBuscar().getText().isEmpty()) {
+							ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
+							users = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuariosPorNome(view.getTextFieldCampoBuscar().getText());
+							exibirTodosUsuarios();
+						}else {
+							JOptionPane.showMessageDialog(null, "É preciso selecionar inserir um nome primeiro!");
+						}
 					}
 				});
 			}
@@ -118,57 +131,70 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
-						openNotificacoes();
+						if(numNotificacoes != 0) {
+							openNotificacoes();
+						}else {
+							JOptionPane.showMessageDialog(null, "Não há notificações não lidas.");
+						}
 					}
 				});
 			}
 		});
-
 	}
 
 	@Override
 	public void update(String status) {
-		if (status.equals("login administrador") || status.equals("atualizar notificações lidas")) {
+		if (status.equals("login administrador") || status.equals("atualizar notificações lidas")
+				|| status.equals("administrador enviou notificação para usuário selecionado")
+				|| status.equals("administrador enviou notificação para todos os usuários")) {
 			this.users = this.buscarTodosUsuarios();
 			// verifica se há usuários registrados e lista todos
-			if(this.users.isEmpty()) {
+			if (this.users.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Não há usuários registrados.");
-			}else {
+			} else {
 				this.exibirTodosUsuarios();
 			}
 			// recupera todas as notificações do administrador
 			this.getQtdNotificacoesAdmin();
-		}else{
-			
+		} else {
+
 		}
 	}
-	
+
 	public ArrayList<Usuario> buscarTodosUsuarios() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		return ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getTodosUsuarios();
 	}
-	
+
 	public void exibirTodosUsuarios() {
 		DefaultTableModel modelo = (DefaultTableModel) this.view.getTable().getModel();
 		modelo.setNumRows(0);
 		for (Usuario user : this.users) {
-			modelo.addRow(new Object[] { user.getIdUsuario(), user.getNome(), user.getCpf(),
-					user.getDataCadastro(), user.getNotEnviadas(), user.getNotLidas() });
+			modelo.addRow(new Object[] { user.getIdUsuario(), user.getNome(), user.getCpf(), user.getDataCadastro(), user.getState(),
+					user.getNotEnviadas(), user.getNotLidas() });
+		}
+		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		int i = 0;
+		while (i < view.getTable().getColumnCount()) {
+			view.getTable().getColumnModel().getColumn(i).setCellRenderer(centralizado);
+			i++;
 		}
 	}
-	
+
 	public void getQtdNotificacoesAdmin() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		int numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getQtdNotificacoesNaoLidasEnderecadasAdmin();
-		if(numNotificacoes != 0) {
+		numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
+				.getQtdNotificacoesNaoLidasEnderecadasAdmin();
+		if (numNotificacoes != 0) {
 			view.getBtnOpenNotificacoes().setText(String.valueOf(numNotificacoes));
 			view.getBtnOpenNotificacoes().setBackground(Color.red);
-		}else {
+		} else {
 			view.getBtnOpenNotificacoes().setText(String.valueOf(numNotificacoes));
 			view.getBtnOpenNotificacoes().setBackground(Color.green);
 		}
 	}
-	
+
 	public void openNotificacoes() {
 		notifyObservers("");
 		// exibir tela que apresenta todas as notificações do administrador
@@ -176,5 +202,20 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 		notificacoesPresenter = new NotificacoesPresenter(window, this);
 		add(notificacoesPresenter);
 		notifyObservers("abrir notificações");
+	}
+
+	public void enviarNotUser() {
+		EnviarNotificacaoUserView window = new EnviarNotificacaoUserView();
+		enviarNotUserPresenter = new EnviarNotificacaoUserPresenter(window, userSelecionado, this);
+	}
+
+	public void enviarNotAllUsers() {
+		EnviarNotificacaoAllUsersView window = new EnviarNotificacaoAllUsersView();
+		enviarNotAllUsersPresenter = new EnviarNotificacaoAllUsersPresenter(window, users, this);
+	}
+	
+	public void exibeStatusLogin() {
+		view.getLblUserName().setText(adminLogado.getNome());
+		view.getLblUserTypeName().setText(adminLogado.getTipo());
 	}
 }

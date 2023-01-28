@@ -94,11 +94,7 @@ public class NotificacoesPresenter extends Subject implements Observer {
 	public void update(String status) {
 		if (status.equals("abrir notificações")) {
 			this.nots = getTodasNotNaoLidasEnderecadasAoAdmin();
-			if (this.nots.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Não há notificações registradas.");
-			} else {
-				exibirTodasNotificacoesEnderecadasAoAdmin();
-			}
+			exibirTodasNotificacoesEnderecadasAoAdmin();
 		} else if(status.equals("atualizar lista de notificações")) {
 			this.nots = getTodasNotNaoLidasEnderecadasAoAdmin();
 			exibirTodasNotificacoesEnderecadasAoAdmin();
@@ -112,7 +108,7 @@ public class NotificacoesPresenter extends Subject implements Observer {
 			modelo.addRow(new Object[] { not.getIdNotificacao(), not.getDescricao(), not.getData(), not.getStatus() });
 		}
 	}
-	
+
 	public void getNotificacoesService() {
 		usuario = new Usuario();
 		notificacaoService = new NotificacaoService(usuario, notSelecionada, this);

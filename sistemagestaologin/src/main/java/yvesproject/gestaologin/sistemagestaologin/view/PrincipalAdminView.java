@@ -43,7 +43,7 @@ public class PrincipalAdminView {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds( 100,100, 854, 488);
+		frame.setBounds( 100,100, 945, 488);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -53,7 +53,7 @@ public class PrincipalAdminView {
 		panel.setForeground(new Color(0, 0, 0));
 		panel.setBorder(new MatteBorder(6, 0, 0, 0, (Color) new Color(128, 128, 128)));
 		panel.setBackground(new Color(249, 249, 249));
-		panel.setBounds(0, 408, 838, 41);
+		panel.setBounds(0, 408, 919, 41);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -79,12 +79,12 @@ public class PrincipalAdminView {
 		
 		JLabel lblNotificacoes = new JLabel("Notificações:");
 		lblNotificacoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNotificacoes.setBounds(688, 11, 83, 19);
+		lblNotificacoes.setBounds(769, 11, 83, 19);
 		panel.add(lblNotificacoes);
 		
 		btnOpenNotificacoes = new JButton("0");
 		btnOpenNotificacoes.setBackground(new Color(192, 192, 192));
-		btnOpenNotificacoes.setBounds(781, 11, 47, 23);
+		btnOpenNotificacoes.setBounds(862, 11, 47, 23);
 		panel.add(btnOpenNotificacoes);
 		
 		btnOpenNotificarTodosUsuarios = new JButton("Notificar todos os usuários");
@@ -108,13 +108,13 @@ public class PrincipalAdminView {
 		frame.getContentPane().add(btnBuscarUsuarios);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 55, 818, 275);
+		scrollPane.setBounds(10, 55, 909, 275);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		model = new DefaultTableModel();
-		Object[] column = {"ID", "Nome", "CPF", "Data de cadastro", "Notificações enviadas", "Notificações lidas"};
+		Object[] column = {"ID", "Nome", "CPF", "Data de cadastro", "status", "Notificações enviadas", "Notificações lidas"};
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
@@ -123,22 +123,22 @@ public class PrincipalAdminView {
 		tableSelecionado = new JTable();
 		tableSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		modelSelecionado = new DefaultTableModel();
-		Object[] column1 = {"", "", "", "", "", ""};
+		Object[] column1 = {"", "", "", "", "", "", ""};
 		modelSelecionado.setColumnIdentifiers(column1);
 		tableSelecionado.setModel(modelSelecionado);
 		tableSelecionado.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
 		scrollPaneFuncSelecionado.setViewportView(tableSelecionado);
-		scrollPaneFuncSelecionado.setBounds(10, 341, 818, 26);
+		scrollPaneFuncSelecionado.setBounds(10, 341, 909, 26);
 		frame.getContentPane().add(scrollPaneFuncSelecionado);
 		
 		btnExcluirUsuario = new JButton("Excluir usuário");
 		btnExcluirUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnExcluirUsuario.setBounds(685, 371, 143, 26);
+		btnExcluirUsuario.setBounds(776, 371, 143, 26);
 		frame.getContentPane().add(btnExcluirUsuario);
 		
 		btnOpenNotificarUsuarioSelecionado = new JButton("Notificar usuário");
 		btnOpenNotificarUsuarioSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnOpenNotificarUsuarioSelecionado.setBounds(532, 371, 143, 26);
+		btnOpenNotificarUsuarioSelecionado.setBounds(623, 371, 143, 26);
 		frame.getContentPane().add(btnOpenNotificarUsuarioSelecionado);
 	}
 

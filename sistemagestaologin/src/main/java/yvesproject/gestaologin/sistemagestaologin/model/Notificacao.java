@@ -63,6 +63,10 @@ public class Notificacao {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Notificacao [idNotificacao=" + idNotificacao + ", idRemetente=" + idRemetente + ", idDestinatario="
+				+ idDestinatario + ", descricao=" + descricao + ", data=" + data + ", status=" + status + "]";
+	}
 }

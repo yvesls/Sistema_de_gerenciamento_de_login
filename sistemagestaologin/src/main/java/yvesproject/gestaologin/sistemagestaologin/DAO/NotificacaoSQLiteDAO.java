@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.interfaces.INotificacaoDAO;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
-import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 
 public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificacaoDAO {
 

@@ -33,7 +33,7 @@ public class NotificacoesView {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds(100,100, 854, 488);
+		frame.setBounds( 100,100, 945, 488);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		
@@ -52,7 +52,7 @@ public class NotificacoesView {
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
 		
 		scrollPaneNot.setViewportView(table);
-		scrollPaneNot.setBounds(37, 58, 766, 292);
+		scrollPaneNot.setBounds(37, 58, 858, 292);
 		frame.getContentPane().add(scrollPaneNot);
 		
 		JScrollPane scrollPaneNotSelecionado = new JScrollPane();
@@ -65,12 +65,12 @@ public class NotificacoesView {
 		tableSelecionado.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
 		
 		scrollPaneNotSelecionado.setViewportView(tableSelecionado);
-		scrollPaneNotSelecionado.setBounds(37, 361, 766, 24);
+		scrollPaneNotSelecionado.setBounds(37, 361, 858, 24);
 		frame.getContentPane().add(scrollPaneNotSelecionado);
 		
 		btnMarcarComoLida = new JButton("Validar usuário");
 		btnMarcarComoLida.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnMarcarComoLida.setBounds(586, 402, 217, 30);
+		btnMarcarComoLida.setBounds(678, 402, 217, 30);
 		frame.getContentPane().add(btnMarcarComoLida);
 		
 		btnFechar = new JButton("Fechar");

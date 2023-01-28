@@ -6,5 +6,5 @@ public interface IUsuarioDAO {
 	
 	public int salvar(Usuario usuario);
 
-	public boolean remover();
+	public boolean remover(int idUsuario);
 }

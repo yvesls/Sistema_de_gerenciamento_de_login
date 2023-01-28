@@ -54,9 +54,26 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 	}
 
 	@Override
-	public boolean remover() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean remover(int idUsuario) {
+		conectar();
+		String sql = "DELETE FROM Usuario WHERE idUsuario = '" + idUsuario + "';";
+		PreparedStatement stmt = this.criarStatement(sql);
+		try {
+			stmt.executeUpdate();
+			fechar();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
 	}
 	
 	public boolean atualizar(Usuario usuario) {
@@ -168,6 +185,42 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 			}
 		}
 		return temRegistro;
+	}
+	
+	public ArrayList<Usuario> getUsuariosPorNome(String nome) {
+		conectar();
+		ArrayList<Usuario> listaUsers = new ArrayList<>();
+		ResultSet result = null;
+		PreparedStatement stmt = null;
+		Usuario user = new Usuario();
+
+		String sql = "SELECT idUsuario, email, senha, tipo, status, nome, cpf, notificacoesEnviadas, notificacoesLidas, dataCadastro FROM Usuario WHERE"
+				+ " nome LIKE '%" + nome + "%' AND tipo = 'usuario';";
+		stmt = this.criarStatement(sql);
+
+		try {
+			stmt.executeQuery();
+			result = stmt.executeQuery();
+			while (result.next()) {
+				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"), result.getString("tipo"), result.getString("status"), result.getString("nome"),
+						result.getString("cpf"), result.getInt("notificacoesEnviadas"), result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
+
+				listaUsers.add(user);
+			}
+			fechar();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return listaUsers;
 	}
 	
 	public Usuario getUserIsRegister(Usuario usuario) {

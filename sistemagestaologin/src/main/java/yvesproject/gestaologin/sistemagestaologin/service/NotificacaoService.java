@@ -16,19 +16,25 @@ public class NotificacaoService extends Subject implements Observer {
 	private int qtdNotLidas;
 	private Notificacao notEnvio;
 	private int qtdNotEnviadas;
-	private NotificacoesPresenter notPresenter;
+	private Observer observador;
 
-	public NotificacaoService(Usuario usuario, Notificacao notificacao, NotificacoesPresenter notPresenter) {
+	public NotificacaoService(Usuario usuario, Notificacao notificacao, Observer observador) {
 		this.usuario = usuario;
 		this.notificacao = notificacao;
-		this.notPresenter = notPresenter;
+		this.observador = observador;
+		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
+	}
+	
+	public NotificacaoService(Notificacao notificacao, Observer observador) {
+		this.notificacao = notificacao;
+		this.observador = observador;
+		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 	}
 
 	// atualiza o status da notificação
 	public boolean atualizarStatusNotificacao() {
-		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		notificacao.setStatus("lida");
-		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().atualizarStatus(notificacao);
+		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().atualizarStatus(this.notificacao);
 	}
 
 	public boolean atualizarQtdNotificacaoLida() {
@@ -45,6 +51,10 @@ public class NotificacaoService extends Subject implements Observer {
 		notEnvio = new Notificacao(1, usuario.getIdUsuario(), "Bem vindo!", "não lida");
 		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(notEnvio);
 	}
+	
+	public boolean enviarNotificacaoAdminParaSelecionados() {
+		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(notificacao);
+	}
 
 	public void atualizaQtdNotificacoesEnviadasAdmin() {
 		usuario = new Usuario();
@@ -53,7 +63,7 @@ public class NotificacaoService extends Subject implements Observer {
 		usuario.setNotEnviadas(qtdNotEnviadas++);
 		usuario.setIdUsuario(1);
 		if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarQtdNotificacoesEnviadas(usuario)) {
-			add(notPresenter);
+			add(observador);
 			notifyObservers("atualizar lista de notificações");
 			JOptionPane.showMessageDialog(null, "Notificação atualizada com sucesso.", "Sucesso",
 					JOptionPane.INFORMATION_MESSAGE);
