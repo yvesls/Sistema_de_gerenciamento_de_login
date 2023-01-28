@@ -159,7 +159,7 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 	
 	public void getQtdNotificacoesAdmin() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		int numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getQtdNotificacoesEnderecadasAdmin();
+		int numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getQtdNotificacoesNaoLidasEnderecadasAdmin();
 		if(numNotificacoes != 0) {
 			view.getBtnOpenNotificacoes().setText(String.valueOf(numNotificacoes));
 			view.getBtnOpenNotificacoes().setBackground(Color.red);

@@ -74,20 +74,21 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		}
 		return true;
 	}
-	public ArrayList<Notificacao> getTodasNotificacoesEnderecadasAdmin(){
+	
+	public ArrayList<Notificacao> getTodasNotificacoesNaoLidasEnderecadasAdmin(){
 		conectar();
 		ArrayList<Notificacao> listaNots = new ArrayList<>();
 		Notificacao not = new Notificacao();
 		ResultSet result = null;
 		PreparedStatement stmt = null;
-		String sql = "SELECT * FROM Notificacoes WHERE idDestinatario = 1;";
+		String sql = "SELECT * FROM Notificacoes WHERE idDestinatario = 1 AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
 		try {
 			result = stmt.executeQuery();
 			while (result.next()) {
 				not = new Notificacao(result.getInt("idNotificacao"), result.getInt("idRemetente"), result.getInt("idDestinatario"), result.getString("descricao"),
-						result.getString("status"), result.getString("data"));
+						result.getString("data"), result.getString("status"));
 				listaNots.add(not);
 			}
 			fechar();
@@ -105,12 +106,12 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return listaNots;
 	}
 	
-	public int getQtdNotificacoesEnderecadasAdmin() {
+	public int getQtdNotificacoesNaoLidasEnderecadasAdmin() {
 		conectar();
 		int qtd = -1;
 		ResultSet result = null;
 		PreparedStatement stmt = null;
-		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = 1;";
+		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = 1 AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
 		try {

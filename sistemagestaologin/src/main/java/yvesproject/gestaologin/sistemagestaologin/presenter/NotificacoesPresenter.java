@@ -17,17 +17,16 @@ import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
+import yvesproject.gestaologin.sistemagestaologin.service.NotificacaoService;
 import yvesproject.gestaologin.sistemagestaologin.view.NotificacoesView;
 
 public class NotificacoesPresenter extends Subject implements Observer {
 	private NotificacoesView view;
 	private Notificacao notSelecionada;
 	private ArrayList<Notificacao> nots;
-	private int qtdNotLidas;
-	private int qtdNotEnviadas;
-	private Notificacao notConfirmacao;
-	private Usuario usuario;
 	private Observer principalPresenter;
+	private NotificacaoService notificacaoService;
+	private Usuario usuario;
 
 	public NotificacoesPresenter(NotificacoesView view, Observer principalPresenter) {
 		this.view = view;
@@ -41,58 +40,9 @@ public class NotificacoesPresenter extends Subject implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// verifica se há notificação selecionada
 				if (notSelecionada != null) {
-System.out.println(notSelecionada.getData());
-					if (notSelecionada.getData().equals("não lida")) {
-						ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-						notSelecionada.setStatus("lida");
-						// atualiza o status da notificação
-						if (ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
-								.atualizarStatus(notSelecionada)) {
-							qtdNotLidas = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
-									.getQtdNotificacoesLidasRemetente(notSelecionada.getIdRemetente());
-							usuario = new Usuario();
-							usuario.setNotLidas(qtdNotLidas++);
-							usuario.setIdUsuario(notSelecionada.getIdRemetente());
-							// atualiza a quantidade de notificação lida do usuário
-							if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
-									.atualizarQtdNotificacoesLidas(usuario)) {
-								notConfirmacao = new Notificacao(1, usuario.getIdUsuario(), "Bem vindo!", "não lida");
-								// envia uma notificação de confirmação e boas vindas para o usuário.
-								if (ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
-										.salvar(notConfirmacao)) {
-									usuario = new Usuario();
-									qtdNotEnviadas = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
-											.getQtdNotificacoesEnviadasRemetente(1);
-									usuario.setNotEnviadas(qtdNotEnviadas++);
-									usuario.setIdUsuario(1);
-									// atualiza a quantidade de notiicação enviada do administrador
-									if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
-											.atualizarQtdNotificacoesEnviadas(usuario)) {
-										JOptionPane.showMessageDialog(null, "Notificação atualizada com sucesso.",
-												"Sucesso", JOptionPane.INFORMATION_MESSAGE);
-										add(principalPresenter);
-										notifyObservers("atualizar notificações lidas");
-									} else {
-										JOptionPane.showMessageDialog(null,
-												"Ocorreu um erro inesperado ao atualizar a sua quantidade de notificação enviada. Tente novamente mais tarde.",
-												"Atenção", JOptionPane.INFORMATION_MESSAGE);
-									}
-								} else {
-									JOptionPane.showMessageDialog(null,
-											"Ocorreu um erro inesperado ao enviar notificação de confirmação para o usuário. Tente novamente mais tarde.",
-											"Atenção", JOptionPane.INFORMATION_MESSAGE);
-								}
-							} else {
-								JOptionPane.showMessageDialog(null,
-										"Ocorreu um erro inesperado ao atualizar a quantidade de notificação lida do usuário. Tente novamente mais tarde.",
-										"Atenção", JOptionPane.INFORMATION_MESSAGE);
-							}
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"Ocorreu um erro inesperado ao atualizar o status da notificação. Tente novamente mais tarde.",
-									"Atenção", JOptionPane.INFORMATION_MESSAGE);
-						}
-
+					if (notSelecionada.getStatus().equals("não lida")) {
+						// chama a service de notificações
+						getNotificacoesService();
 					} else {
 						JOptionPane.showMessageDialog(null, "Esta notificação já foi confirmada como lida.");
 					}
@@ -105,6 +55,8 @@ System.out.println(notSelecionada.getData());
 		view.getBtnFechar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Modifica o status da notificação
+				add(principalPresenter);
+				notifyObservers("atualizar notificações lidas");
 				view.getFrame().setVisible(false);
 			}
 		});
@@ -133,21 +85,23 @@ System.out.println(notSelecionada.getData());
 		});
 	}
 
-	public ArrayList<Notificacao> getTodasNotEnderecadasAoAdmin() {
+	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoAdmin() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getTodasNotificacoesEnderecadasAdmin();
+		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getTodasNotificacoesNaoLidasEnderecadasAdmin();
 	}
 
 	@Override
 	public void update(String status) {
 		if (status.equals("abrir notificações")) {
-			this.nots = getTodasNotEnderecadasAoAdmin();
+			this.nots = getTodasNotNaoLidasEnderecadasAoAdmin();
 			if (this.nots.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Não há notificações registradas.");
 			} else {
 				exibirTodasNotificacoesEnderecadasAoAdmin();
 			}
-		} else {
+		} else if(status.equals("atualizar lista de notificações")) {
+			this.nots = getTodasNotNaoLidasEnderecadasAoAdmin();
+			exibirTodasNotificacoesEnderecadasAoAdmin();
 		}
 	}
 
@@ -157,5 +111,12 @@ System.out.println(notSelecionada.getData());
 		for (Notificacao not : this.nots) {
 			modelo.addRow(new Object[] { not.getIdNotificacao(), not.getDescricao(), not.getData(), not.getStatus() });
 		}
+	}
+	
+	public void getNotificacoesService() {
+		usuario = new Usuario();
+		notificacaoService = new NotificacaoService(usuario, notSelecionada, this);
+		add(notificacaoService);
+		notifyObservers("administrador valida login do usuário");
 	}
 }
