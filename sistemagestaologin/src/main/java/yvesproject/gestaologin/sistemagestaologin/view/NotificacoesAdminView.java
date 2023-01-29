@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
-public class NotificacoesView {
+public class NotificacoesAdminView {
 
 	private JFrame frame;
 	private JTable table;
@@ -26,7 +26,7 @@ public class NotificacoesView {
 	 * PERMITIDO DE ACESSO: Usuário comum
 	 */
 	
-	public NotificacoesView() {
+	public NotificacoesAdminView() {
 		initialize();
 	}
 	

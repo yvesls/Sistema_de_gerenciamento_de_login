@@ -38,6 +38,9 @@ public class LoginPresenter extends Subject {
 					// se o usuário existir, realiza o login e fecha a janela
 					if(usuarioLogin != null) {
 						validarStatusLogin();
+					}else if (usuarioLogin.getState().equals("cancelado")) {
+						JOptionPane.showMessageDialog(null, "A solicitação de autentificação do usuário foi negada ou o administrador baniu o usuário.", "Atenção",
+								JOptionPane.INFORMATION_MESSAGE);
 					}else {
 						JOptionPane.showMessageDialog(null, "Usuário não encontrado. Corrija algum campo ou se registre, caso seja sua primeira vez aqui.", "Atenção",
 								JOptionPane.INFORMATION_MESSAGE);

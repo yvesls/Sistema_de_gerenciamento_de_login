@@ -41,9 +41,9 @@ public class EnviarNotificacaoUserPresenter {
 	
 	public void enviarNotificacao() {
 		notificacao = new Notificacao(1, usuarioSelecionado.getIdUsuario(), view.getTxtMensagem().getText(),"não lida");
-		notService = new NotificacaoService(notificacao, principalPresenter);
+		notService = new NotificacaoService(usuarioSelecionado, notificacao, principalPresenter);
 		if (notService.enviarNotificacaoAdminParaSelecionados()) {
-			notService.atualizaQtdNotificacoesEnviadasAdmin();
+			notService.atualizaQtdNotificacoesEnviadas();
 		} else {
 			JOptionPane.showMessageDialog(null, "Ocorreu um erro ao enviar a notificação.");
 		}

@@ -29,6 +29,7 @@ public class PrincipalAdminView {
 	private JTextField textFieldCampoBuscar;
 	private JButton btnExcluirUsuario;
 	private JButton btnOpenNotificarUsuarioSelecionado;
+	private JButton btnAtualizarManualmente;
 	
 	/**
 	 * @author yvesl
@@ -77,9 +78,9 @@ public class PrincipalAdminView {
 		lblUserTypeName.setBounds(374, 11, 197, 19);
 		panel.add(lblUserTypeName);
 		
-		JLabel lblNotificacoes = new JLabel("Notificações:");
+		JLabel lblNotificacoes = new JLabel("Notificações não lidas:");
 		lblNotificacoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNotificacoes.setBounds(769, 11, 83, 19);
+		lblNotificacoes.setBounds(719, 11, 133, 19);
 		panel.add(lblNotificacoes);
 		
 		btnOpenNotificacoes = new JButton("0");
@@ -140,6 +141,16 @@ public class PrincipalAdminView {
 		btnOpenNotificarUsuarioSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnOpenNotificarUsuarioSelecionado.setBounds(623, 371, 143, 26);
 		frame.getContentPane().add(btnOpenNotificarUsuarioSelecionado);
+		
+		btnAtualizarManualmente = new JButton("Atualizar");
+		btnAtualizarManualmente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAtualizarManualmente.setBounds(765, 11, 154, 33);
+		frame.getContentPane().add(btnAtualizarManualmente);
+		
+		JLabel lblAtualizarManualmente = new JLabel("Atualizar página manualmente:");
+		lblAtualizarManualmente.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblAtualizarManualmente.setBounds(534, 11, 221, 33);
+		frame.getContentPane().add(lblAtualizarManualmente);
 	}
 
 	public JFrame getFrame() {
@@ -192,5 +203,9 @@ public class PrincipalAdminView {
 
 	public JButton getBtnOpenNotificarUsuarioSelecionado() {
 		return btnOpenNotificarUsuarioSelecionado;
+	}
+
+	public JButton getBtnAtualizarManualmente() {
+		return btnAtualizarManualmente;
 	}
 }

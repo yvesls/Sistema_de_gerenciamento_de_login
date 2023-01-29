@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import yvesproject.gestaologin.sistemagestaologin.bussiness.loginstate.DesabilitarUsuarioState;
+import yvesproject.gestaologin.sistemagestaologin.bussiness.loginstate.UsuarioState;
+
 public class Usuario {
 	private int idUsuario;
 	private String email;
@@ -15,8 +18,17 @@ public class Usuario {
 	private int notEnviadas;
 	private int notLidas;
 	private String dataCadastro;
+	private UsuarioState status;
 	
 	public Usuario() {
+	}
+	
+	// construtor para validação de usuário
+	public Usuario(int idUsuario, String state) {
+		this.idUsuario = idUsuario;
+		if(state.equals("usuario")) {
+			this.status =  new DesabilitarUsuarioState(this);
+		}
 	}
 	
 	// Construtor para usuário registrado
@@ -102,5 +114,32 @@ public class Usuario {
 
 	public void setIdUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+	public void ativarUsuarioState(Usuario modificarStateUsuario) {
+        this.status.ativarUsuario(modificarStateUsuario);
+    }
+
+    public void cancelarUsuarioState(Usuario modificarStateUsuario) {
+        this.status.cancelarUsuario(modificarStateUsuario);
+    }
+
+	public UsuarioState getStatus() {
+		return status;
+	}
+
+	public void setStatus(UsuarioState status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [idUsuario=" + idUsuario + ", email=" + email + ", senha=" + senha + ", tipo=" + tipo
+				+ ", state=" + state + ", nome=" + nome + ", cpf=" + cpf + ", notEnviadas=" + notEnviadas
+				+ ", notLidas=" + notLidas + ", dataCadastro=" + dataCadastro + ", status=" + status + "]";
 	}
 }

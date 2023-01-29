@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import yvesproject.gestaologin.sistemagestaologin.DAO.interfaces.IUsuarioDAO;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 
-public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
+public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 
 	@Override
 	public int salvar(Usuario usuario) {
@@ -20,7 +20,7 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 			String sql = ""
 					+ "INSERT INTO Usuario (email, senha, tipo, status, nome, cpf, notificacoesEnviadas, notificacoesLidas, dataCadastro) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-			
+
 			stmt = criarStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, usuario.getEmail());
 			stmt.setString(2, usuario.getSenha());
@@ -31,11 +31,11 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 			stmt.setInt(7, usuario.getNotEnviadas());
 			stmt.setInt(8, usuario.getNotLidas());
 			stmt.setString(9, usuario.getDataCadastro());
-			
+
 			stmt.executeUpdate();
 			result = stmt.getGeneratedKeys();
 			if (result.next()) {
-			    idGerado = result.getInt(1);
+				idGerado = result.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,7 +75,7 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean atualizar(Usuario usuario) {
 		conectar();
 		String sql = "UPDATE Usuario SET email=?, "
@@ -108,11 +108,10 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean atualizarQtdNotificacoesLidas(Usuario usuario) {
 		conectar();
-		String sql = "UPDATE Usuario SET notificacoesLidas=? WHERE idUsuario = '"
-				+ usuario.getIdUsuario() + "';";
+		String sql = "UPDATE Usuario SET notificacoesLidas=? WHERE idUsuario = '" + usuario.getIdUsuario() + "';";
 		PreparedStatement stmt = criarStatement(sql);
 		try {
 			stmt.setInt(1, usuario.getNotLidas());
@@ -132,14 +131,37 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean atualizarQtdNotificacoesEnviadas(Usuario usuario) {
 		conectar();
-		String sql = "UPDATE Usuario SET notificacoesEnviadas=? WHERE idUsuario = '"
-				+ usuario.getIdUsuario() + "';";
+		String sql = "UPDATE Usuario SET notificacoesEnviadas=? WHERE idUsuario = '" + usuario.getIdUsuario() + "';";
 		PreparedStatement stmt = criarStatement(sql);
 		try {
 			stmt.setInt(1, usuario.getNotEnviadas());
+			stmt.executeUpdate();
+			fechar();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean atualizarStateUsuario(Usuario usuario) {
+		conectar();
+		String sql = "UPDATE Usuario SET status=? WHERE idUsuario = '"
+				+ usuario.getIdUsuario() + "';";
+		PreparedStatement stmt = criarStatement(sql);
+		try {
+			stmt.setString(1, usuario.getState());
 			stmt.executeUpdate();
 			fechar();
 		} catch (SQLException e) {
@@ -170,7 +192,7 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 			while (result.next()) {
 				temRegistro = result.getBoolean(1);
 			}
-			
+
 			fechar();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -186,7 +208,7 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return temRegistro;
 	}
-	
+
 	public ArrayList<Usuario> getUsuariosPorNome(String nome) {
 		conectar();
 		ArrayList<Usuario> listaUsers = new ArrayList<>();
@@ -202,8 +224,10 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 			stmt.executeQuery();
 			result = stmt.executeQuery();
 			while (result.next()) {
-				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"), result.getString("tipo"), result.getString("status"), result.getString("nome"),
-						result.getString("cpf"), result.getInt("notificacoesEnviadas"), result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
+				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"),
+						result.getString("tipo"), result.getString("status"), result.getString("nome"),
+						result.getString("cpf"), result.getInt("notificacoesEnviadas"),
+						result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
 
 				listaUsers.add(user);
 			}
@@ -222,23 +246,26 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return listaUsers;
 	}
-	
+
 	public Usuario getUserIsRegister(Usuario usuario) {
 		conectar();
 		Usuario user = null;
 		ResultSet result = null;
 		PreparedStatement stmt = null;
-		String sql = "" + "SELECT idUsuario, email, senha, tipo, status, nome, cpf, notificacoesEnviadas, notificacoesLidas, dataCadastro FROM Usuario WHERE email = '" + usuario.getEmail() + "' AND "
-				+ "senha = '" + usuario.getSenha() + "';";
+		String sql = ""
+				+ "SELECT idUsuario, email, senha, tipo, status, nome, cpf, notificacoesEnviadas, notificacoesLidas, dataCadastro FROM Usuario WHERE email = '"
+				+ usuario.getEmail() + "' AND " + "senha = '" + usuario.getSenha() + "';";
 
 		stmt = criarStatement(sql);
 		try {
 			result = stmt.executeQuery();
-			if(result.next()) {
-				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"), result.getString("tipo"), result.getString("status"), result.getString("nome"),
-						result.getString("cpf"), result.getInt("notificacoesEnviadas"), result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
+			if (result.next()) {
+				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"),
+						result.getString("tipo"), result.getString("status"), result.getString("nome"),
+						result.getString("cpf"), result.getInt("notificacoesEnviadas"),
+						result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
 			}
-				
+
 			fechar();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -254,22 +281,26 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return user;
 	}
-	
+
 	public Usuario getUsuarioPorId(int idUsuario) {
 		conectar();
 		Usuario user = null;
 		ResultSet result = null;
 		PreparedStatement stmt = null;
-		String sql = "" + "SELECT idUsuario, email, senha, tipo, status, nome, cpf, notificacoesEnviadas, notificacoesLidas, dataCadastro FROM Usuario WHERE idUsuario = '" + idUsuario + "';";
+		String sql = ""
+				+ "SELECT idUsuario, email, senha, tipo, status, nome, cpf, notificacoesEnviadas, notificacoesLidas, dataCadastro FROM Usuario WHERE idUsuario = '"
+				+ idUsuario + "';";
 
 		stmt = criarStatement(sql);
 		try {
 			result = stmt.executeQuery();
-			if(result.next()) {
-				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"), result.getString("tipo"), result.getString("status"), result.getString("nome"),
-						result.getString("cpf"), result.getInt("notificacoesEnviadas"), result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
+			if (result.next()) {
+				user = new Usuario(result.getInt("idUsuario"), result.getString("email"), result.getString("senha"),
+						result.getString("tipo"), result.getString("status"), result.getString("nome"),
+						result.getString("cpf"), result.getInt("notificacoesEnviadas"),
+						result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
 			}
-				
+
 			fechar();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -285,8 +316,8 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return user;
 	}
-	
-	public ArrayList<Usuario> getTodosUsuarios(){
+
+	public ArrayList<Usuario> getTodosUsuarios() {
 		conectar();
 		ArrayList<Usuario> listaUsers = new ArrayList<>();
 		Usuario user = new Usuario();
@@ -298,8 +329,10 @@ public class UsuarioSQLiteDAO  extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		try {
 			result = stmt.executeQuery();
 			while (result.next()) {
-				user = new Usuario(result.getInt("idUsuario"), "", "", result.getString("tipo"), result.getString("status"), result.getString("nome"),
-						result.getString("cpf"), result.getInt("notificacoesEnviadas"), result.getInt("notificacoesLidas"), result.getString("dataCadastro"));
+				user = new Usuario(result.getInt("idUsuario"), "", "", result.getString("tipo"),
+						result.getString("status"), result.getString("nome"), result.getString("cpf"),
+						result.getInt("notificacoesEnviadas"), result.getInt("notificacoesLidas"),
+						result.getString("dataCadastro"));
 				listaUsers.add(user);
 			}
 			fechar();

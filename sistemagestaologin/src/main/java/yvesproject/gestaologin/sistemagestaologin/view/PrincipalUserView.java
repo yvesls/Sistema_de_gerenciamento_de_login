@@ -16,6 +16,7 @@ public class PrincipalUserView {
 	private JLabel lblUserTypeName;
 	private JButton btnOpenNotificacoes;
 	private JButton btnOpenAlterarSenha;
+	private JButton btnAtualizarManualmente;
 	/**
 	 * @author yvesl
 	 * View principal depois que o usuário é autenticado
@@ -63,20 +64,30 @@ public class PrincipalUserView {
 		lblUserTypeName.setBounds(374, 11, 197, 19);
 		panel.add(lblUserTypeName);
 		
-		JLabel lblNotificacoes = new JLabel("Notificações:");
+		JLabel lblNotificacoes = new JLabel("Notificações não lidas:");
 		lblNotificacoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNotificacoes.setBounds(688, 11, 83, 19);
+		lblNotificacoes.setBounds(729, 11, 133, 19);
 		panel.add(lblNotificacoes);
 		
 		btnOpenNotificacoes = new JButton("0");
 		btnOpenNotificacoes.setBackground(new Color(192, 192, 192));
-		btnOpenNotificacoes.setBounds(781, 11, 47, 23);
+		btnOpenNotificacoes.setBounds(872, 11, 47, 23);
 		panel.add(btnOpenNotificacoes);
 		
 		btnOpenAlterarSenha = new JButton("Alterar Senha");
 		btnOpenAlterarSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnOpenAlterarSenha.setBounds(699, 372, 220, 25);
 		frame.getContentPane().add(btnOpenAlterarSenha);
+		
+		btnAtualizarManualmente = new JButton("Atualizar");
+		btnAtualizarManualmente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAtualizarManualmente.setBounds(765, 11, 154, 33);
+		frame.getContentPane().add(btnAtualizarManualmente);
+		
+		JLabel lblAtualizarManualmente = new JLabel("Atualizar página manualmente:");
+		lblAtualizarManualmente.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblAtualizarManualmente.setBounds(534, 11, 221, 33);
+		frame.getContentPane().add(lblAtualizarManualmente);
 	}
 
 	public JFrame getFrame() {
@@ -97,5 +108,9 @@ public class PrincipalUserView {
 
 	public JButton getBtnOpenAlterarSenha() {
 		return btnOpenAlterarSenha;
+	}
+
+	public JButton getBtnAtualizarManualmente() {
+		return btnAtualizarManualmente;
 	}
 }

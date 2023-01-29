@@ -105,12 +105,71 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return listaNots;
 	}
 	
+	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoUsuario(int idUsuario){
+		conectar();
+		ArrayList<Notificacao> listaNots = new ArrayList<>();
+		Notificacao not = new Notificacao();
+		ResultSet result = null;
+		PreparedStatement stmt = null;
+		String sql = "SELECT * FROM Notificacoes WHERE idDestinatario = " + idUsuario + " AND status = 'não lida';";
+
+		stmt = criarStatement(sql);
+		try {
+			result = stmt.executeQuery();
+			while (result.next()) {
+				not = new Notificacao(result.getInt("idNotificacao"), result.getInt("idRemetente"), result.getInt("idDestinatario"), result.getString("descricao"),
+						result.getString("data"), result.getString("status"));
+				listaNots.add(not);
+			}
+			fechar();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return listaNots;
+	}
+	
 	public int getQtdNotificacoesNaoLidasEnderecadasAdmin() {
 		conectar();
 		int qtd = -1;
 		ResultSet result = null;
 		PreparedStatement stmt = null;
 		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = 1 AND status = 'não lida';";
+
+		stmt = criarStatement(sql);
+		try {
+			result = stmt.executeQuery();
+			while (result.next()) {
+				qtd = result.getInt(1);
+			}
+			fechar();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return qtd;
+	}
+	
+	public int getQtdNotificacoesNaoLidasEnderecadasUsuario(int idUsuario) {
+		conectar();
+		int qtd = -1;
+		ResultSet result = null;
+		PreparedStatement stmt = null;
+		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = " + idUsuario + " AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
 		try {

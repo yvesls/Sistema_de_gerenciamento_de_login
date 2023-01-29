@@ -18,20 +18,23 @@ import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 import yvesproject.gestaologin.sistemagestaologin.service.NotificacaoService;
-import yvesproject.gestaologin.sistemagestaologin.view.NotificacoesView;
+import yvesproject.gestaologin.sistemagestaologin.view.NotificacoesAdminView;
 
-public class NotificacoesPresenter extends Subject implements Observer {
-	private NotificacoesView view;
+public class NotificacoesAdminPresenter extends Subject implements Observer {
+	private NotificacoesAdminView view;
 	private Notificacao notSelecionada;
 	private ArrayList<Notificacao> nots;
 	private Observer principalPresenter;
 	private NotificacaoService notificacaoService;
 	private Usuario usuario;
+	private Usuario modificiarUsuario;
+	private DefaultTableModel modelNotSelecionado;
 
-	public NotificacoesPresenter(NotificacoesView view, Observer principalPresenter) {
+	public NotificacoesAdminPresenter(NotificacoesAdminView view, Observer principalPresenter, Usuario usuario) {
 		this.view = view;
 		this.principalPresenter = principalPresenter;
 		this.notSelecionada = null;
+		this.usuario = usuario;
 		regatarAcoesView();
 	}
 
@@ -41,6 +44,8 @@ public class NotificacoesPresenter extends Subject implements Observer {
 				// verifica se há notificação selecionada
 				if (notSelecionada != null) {
 					if (notSelecionada.getStatus().equals("não lida")) {
+						// modifica o state do usuario
+						autentificarUsuario();
 						// chama a service de notificações
 						getNotificacoesService();
 					} else {
@@ -63,14 +68,14 @@ public class NotificacoesPresenter extends Subject implements Observer {
 
 		this.view.getTable().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
-				DefaultTableModel modelo = (DefaultTableModel) view.getTableSelecionado().getModel();
-				modelo.setNumRows(0);
+				modelNotSelecionado = (DefaultTableModel) view.getTableSelecionado().getModel();
+				modelNotSelecionado.setNumRows(0);
 				for (Notificacao not : nots) {
 					if (not.getIdNotificacao() == Integer
 							.valueOf(String.valueOf(view.getTable().getValueAt(view.getTable().getSelectedRow(), 0)))) {
 						notSelecionada = new Notificacao();
 						notSelecionada = not;
-						modelo.addRow(new Object[] { notSelecionada.getIdNotificacao(), notSelecionada.getDescricao(),
+						modelNotSelecionado.addRow(new Object[] { notSelecionada.getIdNotificacao(), notSelecionada.getDescricao(),
 								notSelecionada.getData(), notSelecionada.getStatus() });
 					}
 				}
@@ -87,7 +92,8 @@ public class NotificacoesPresenter extends Subject implements Observer {
 
 	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoAdmin() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getTodasNotificacoesNaoLidasEnderecadasAdmin();
+		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
+				.getTodasNotificacoesNaoLidasEnderecadasAdmin();
 	}
 
 	@Override
@@ -95,9 +101,19 @@ public class NotificacoesPresenter extends Subject implements Observer {
 		if (status.equals("abrir notificações")) {
 			this.nots = getTodasNotNaoLidasEnderecadasAoAdmin();
 			exibirTodasNotificacoesEnderecadasAoAdmin();
-		} else if(status.equals("atualizar lista de notificações")) {
+			// limpa campo de usuário selecionado
+			if (modelNotSelecionado != null) {
+				modelNotSelecionado.setNumRows(0);
+				notSelecionada = null;
+			}
+		} else if (status.equals("atualizar lista de notificações")) {
 			this.nots = getTodasNotNaoLidasEnderecadasAoAdmin();
 			exibirTodasNotificacoesEnderecadasAoAdmin();
+			// limpa campo de usuário selecionado
+			if (modelNotSelecionado != null) {
+				modelNotSelecionado.setNumRows(0);
+				notSelecionada = null;
+			}
 		}
 	}
 
@@ -110,9 +126,13 @@ public class NotificacoesPresenter extends Subject implements Observer {
 	}
 
 	public void getNotificacoesService() {
-		usuario = new Usuario();
 		notificacaoService = new NotificacaoService(usuario, notSelecionada, this);
 		add(notificacaoService);
 		notifyObservers("administrador valida login do usuário");
+	}
+
+	public void autentificarUsuario() {
+		modificiarUsuario = new Usuario(notSelecionada.getIdRemetente(), "usuario");
+		modificiarUsuario.ativarUsuarioState(usuario);
 	}
 }
