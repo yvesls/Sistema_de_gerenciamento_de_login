@@ -34,7 +34,7 @@ public class PrincipalUserPresenter extends Subject implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// inicia o presenter e a view responsável por alterar a senha do usuário
 				AlterarSenhaUserView window = new AlterarSenhaUserView();
-				new AlterarSenhaUserPresenter(window);
+				new AlterarSenhaUserPresenter(window, usuarioLogado);
 			}
 		});
 

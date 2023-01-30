@@ -58,7 +58,6 @@ public class ConexaoSQLiteDAO {
 	protected PreparedStatement criarStatement(String pSQL) {
 		try {
 			return this.getConexao().prepareStatement(pSQL);
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

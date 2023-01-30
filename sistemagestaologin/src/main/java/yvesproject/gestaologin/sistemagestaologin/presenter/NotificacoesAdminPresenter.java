@@ -43,14 +43,10 @@ public class NotificacoesAdminPresenter extends Subject implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// verifica se há notificação selecionada
 				if (notSelecionada != null) {
-					if (notSelecionada.getStatus().equals("não lida")) {
-						// modifica o state do usuario
-						autentificarUsuario();
-						// chama a service de notificações
-						getNotificacoesService();
-					} else {
-						JOptionPane.showMessageDialog(null, "Esta notificação já foi confirmada como lida.");
-					}
+					// modifica o state do usuario
+					autentificarUsuario();
+					// chama a service de notificações
+					getNotificacoesService();
 				} else {
 					JOptionPane.showMessageDialog(null, "Selecione uma notificação primeiro.");
 				}
@@ -75,8 +71,8 @@ public class NotificacoesAdminPresenter extends Subject implements Observer {
 							.valueOf(String.valueOf(view.getTable().getValueAt(view.getTable().getSelectedRow(), 0)))) {
 						notSelecionada = new Notificacao();
 						notSelecionada = not;
-						modelNotSelecionado.addRow(new Object[] { notSelecionada.getIdNotificacao(), notSelecionada.getDescricao(),
-								notSelecionada.getData(), notSelecionada.getStatus() });
+						modelNotSelecionado.addRow(new Object[] { notSelecionada.getIdNotificacao(),
+								notSelecionada.getDescricao(), notSelecionada.getData(), notSelecionada.getStatus() });
 					}
 				}
 				DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();

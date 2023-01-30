@@ -19,7 +19,6 @@ public class LoginPresenter extends Subject {
 	private Usuario usuarioLogin;
 	private PrincipalAdminPresenter principalAdminPresenter;
 	private PrincipalUserPresenter principalUserPresenter;
-	private RegistrarPresenter registrarPresenter;
 
 	public LoginPresenter(LogarView view) {
 		this.view = view;
@@ -52,7 +51,7 @@ public class LoginPresenter extends Subject {
 		view.getBtnOpenRegistrar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// inicia o presenter e abre a janela de registro de novos usuários
-				registrarPresenter = new RegistrarPresenter(new RegistrarView());
+				new RegistrarPresenter(new RegistrarView());
 			}
 		});
 	}

@@ -349,5 +349,33 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		}
 		return listaUsers;
 	}
+	
+	public int getIdAdministrador() {
+		conectar();
+		int user = -1;
+		ResultSet result = null;
+		PreparedStatement stmt = null;
+		String sql = "SELECT idUsuario FROM Usuario LIMIT 1;";
 
+		stmt = criarStatement(sql);
+		try {
+			result = stmt.executeQuery();
+			if (result.next()) {
+				user = result.getInt("idUsuario");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		fechar();
+		return user;
+	}
 }

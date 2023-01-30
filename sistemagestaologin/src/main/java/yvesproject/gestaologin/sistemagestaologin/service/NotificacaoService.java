@@ -8,7 +8,6 @@ import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
-import yvesproject.gestaologin.sistemagestaologin.presenter.NotificacoesAdminPresenter;
 
 public class NotificacaoService extends Subject implements Observer {
 	private Usuario usuario;
@@ -51,7 +50,7 @@ public class NotificacaoService extends Subject implements Observer {
 
 	// envia uma notificação de confirmação e boas vindas para o usuário.
 	public boolean notificarConfirmacaoPadraoBoasVindas() {
-		notEnvio = new Notificacao(1, usuario.getIdUsuario(), "Bem vindo!", "não lida");
+		notEnvio = new Notificacao(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador(), notificacao.getIdRemetente(), "Bem vindo!", "não lida");
 		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(notEnvio);
 	}
 
@@ -65,7 +64,8 @@ public class NotificacaoService extends Subject implements Observer {
 				.getQtdNotificacoesEnviadasRemetente(usuario.getIdUsuario());
 		atualizarQtdNotEnv.setNotEnviadas(qtdNotEnviadas++);
 		atualizarQtdNotEnv.setIdUsuario(usuario.getIdUsuario());
-		if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarQtdNotificacoesEnviadas(atualizarQtdNotEnv)) {
+		if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
+				.atualizarQtdNotificacoesEnviadas(atualizarQtdNotEnv)) {
 			if (usuario.getTipo().equals("administrador")) {
 				add(observador);
 				notifyObservers("atualizar lista de notificações");
@@ -73,8 +73,24 @@ public class NotificacaoService extends Subject implements Observer {
 			} else {
 				add(observador);
 				notifyObservers("atualizar lista de notificações usuário");
+				return true;
 			}
-		} 
+		}
+		return false;
+	}
+
+	public boolean enviarNotificacaoDeAutentificacao(int idGerado, Usuario novoUsuario) {
+
+		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
+		this.notificacao = new Notificacao(idGerado, ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador(),
+				"O usuário " + novoUsuario.getNome() + " solicita autorização de login.", "não lida");
+		if (ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(this.notificacao)) {
+			novoUsuario = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuarioPorId(idGerado);
+			novoUsuario.setNotEnviadas(1);
+			ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizar(novoUsuario);
+			return true;
+		}
+
 		return false;
 	}
 
@@ -84,9 +100,9 @@ public class NotificacaoService extends Subject implements Observer {
 			if (atualizarStatusNotificacao()) {
 				if (atualizarQtdNotificacaoLida()) {
 					if (notificarConfirmacaoPadraoBoasVindas()) {
-						if(atualizaQtdNotificacoesEnviadas()) {
-							JOptionPane.showMessageDialog(null, "Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-						}else {
+						if (atualizaQtdNotificacoesEnviadas()) {
+							
+						} else {
 							JOptionPane.showMessageDialog(null,
 									"Ocorreu um erro inesperado ao atualizar a sua quantidade de notificação enviada. Tente novamente mais tarde.",
 									"Atenção", JOptionPane.INFORMATION_MESSAGE);
@@ -109,9 +125,9 @@ public class NotificacaoService extends Subject implements Observer {
 		} else if (status.equals("usuário leu a notificação")) {
 			if (atualizarStatusNotificacao()) {
 				if (atualizarQtdNotificacaoLida()) {
-					if(atualizaQtdNotificacoesEnviadas()) {
-						JOptionPane.showMessageDialog(null, "Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-					}else {
+					if (atualizaQtdNotificacoesEnviadas()) {
+						
+					} else {
 						JOptionPane.showMessageDialog(null,
 								"Ocorreu um erro inesperado ao atualizar a sua quantidade de notificação enviada. Tente novamente mais tarde.",
 								"Atenção", JOptionPane.INFORMATION_MESSAGE);
@@ -127,18 +143,5 @@ public class NotificacaoService extends Subject implements Observer {
 						"Atenção", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
-	}
-
-	public boolean enviarNotificacaoDeAutentificacao(int idGerado, Usuario novoUsuario) {
-		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		this.notificacao = new Notificacao(idGerado, 1,
-				"O usuário " + novoUsuario.getNome() + " solicita autorização de login.", "não lida");
-		if (ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(this.notificacao)) {
-			novoUsuario = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuarioPorId(idGerado);
-			novoUsuario.setNotEnviadas(1);
-			ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizar(novoUsuario);
-			return true;
-		}
-		return false;
 	}
 }

@@ -10,7 +10,6 @@ import com.pss.senha.validacao.ValidadorSenha;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
-import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 import yvesproject.gestaologin.sistemagestaologin.service.NotificacaoService;
 import yvesproject.gestaologin.sistemagestaologin.view.RegistrarView;
@@ -20,7 +19,6 @@ public class RegistrarPresenter {
 	private ValidadorSenha validadorSenha;
 	private int validadorCamposPreenchidos;
 	private Usuario novoUsuario;
-	private Notificacao notificacao;
 	private int idGerado;
 	private NotificacaoService notService;
 

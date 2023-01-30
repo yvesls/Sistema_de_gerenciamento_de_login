@@ -29,8 +29,6 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 	private ArrayList<Usuario> users;
 	private Usuario adminLogado;
 	private NotificacoesAdminPresenter notificacoesPresenter;
-	private EnviarNotificacaoUserPresenter enviarNotUserPresenter;
-	private EnviarNotificacaoAllUsersPresenter enviarNotAllUsersPresenter;
 	private int numNotificacoes;
 	private DefaultTableModel modelUserSelecionado;
 
@@ -89,6 +87,7 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 									ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 									JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso.", "Sucesso",
 											JOptionPane.INFORMATION_MESSAGE);
+									atualizarPagina();
 								}
 							}
 						} else {
@@ -230,12 +229,12 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 
 	public void enviarNotUser() {
 		EnviarNotificacaoUserView window = new EnviarNotificacaoUserView();
-		enviarNotUserPresenter = new EnviarNotificacaoUserPresenter(window, userSelecionado, this);
+		new EnviarNotificacaoUserPresenter(window, userSelecionado, this);
 	}
 
 	public void enviarNotAllUsers() {
 		EnviarNotificacaoAllUsersView window = new EnviarNotificacaoAllUsersView();
-		enviarNotAllUsersPresenter = new EnviarNotificacaoAllUsersPresenter(window, users, this);
+		new EnviarNotificacaoAllUsersPresenter(window, users, this);
 	}
 	
 	public void exibeStatusLogin() {

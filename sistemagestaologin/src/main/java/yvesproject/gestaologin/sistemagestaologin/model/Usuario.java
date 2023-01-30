@@ -24,9 +24,10 @@ public class Usuario {
 	}
 	
 	// construtor para validação de usuário
-	public Usuario(int idUsuario, String state) {
+	public Usuario(int idUsuario, String tipo) {
 		this.idUsuario = idUsuario;
-		if(state.equals("usuario")) {
+		this.tipo = tipo;
+		if(tipo.equals("usuario")) {
 			this.status =  new DesabilitarUsuarioState(this);
 		}
 	}

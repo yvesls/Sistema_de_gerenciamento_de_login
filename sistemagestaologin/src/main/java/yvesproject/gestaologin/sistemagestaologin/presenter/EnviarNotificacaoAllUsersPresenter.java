@@ -3,11 +3,9 @@ package yvesproject.gestaologin.sistemagestaologin.presenter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
-import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
-import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
+import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 import yvesproject.gestaologin.sistemagestaologin.service.NotificacaoService;
@@ -34,9 +32,12 @@ public class EnviarNotificacaoAllUsersPresenter {
 				if (!view.getTxtMensagem().getText().isEmpty()) {
 					for(Usuario user : users) {
 						notificacao = new Notificacao(1, user.getIdUsuario(), view.getTxtMensagem().getText(),"não lida");
-						notService = new NotificacaoService(user, notificacao, principalPresenter);
+						notService = new NotificacaoService(new Usuario(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador(), "administrador"), notificacao, principalPresenter);
 						if (notService.enviarNotificacaoAdminParaSelecionados()) {
-							notService.atualizaQtdNotificacoesEnviadas();
+							if(notService.atualizaQtdNotificacoesEnviadas()) {
+							}else {
+								JOptionPane.showMessageDialog(null, "Ocorreu um erro ao atualizar a quantidade de notificação enviada.");
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Ocorreu um erro ao enviar a notificação.");
 						}
