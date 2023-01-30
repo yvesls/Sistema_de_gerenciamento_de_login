@@ -1,0 +1,8 @@
+com\mycompany\sistemaregistrolog\adaptador\LogJsonAdapter.class
+com\mycompany\sistemaregistrolog\Principal.class
+com\mycompany\sistemaregistrolog\service\LogService.class
+com\mycompany\sistemaregistrolog\adaptador\LogJsonAdapter$1.class
+com\mycompany\sistemaregistrolog\adaptador\LogAdapter.class
+com\mycompany\sistemaregistrolog\adaptador\FactoryLog.class
+com\mycompany\sistemaregistrolog\model\RegistroLog.class
+com\mycompany\sistemaregistrolog\adaptador\LogCsvAdapter.class

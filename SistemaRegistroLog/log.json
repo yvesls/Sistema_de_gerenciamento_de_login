@@ -13,4 +13,19 @@
   "informacao" : "Download concluído",
   "usuario" : "tiuser2",
   "dataHora" : "30/01/2023 12:35:42"
+}, {
+  "tipo" : "FALHA",
+  "informacao" : "Falha ao gravar o registro do funcionário",
+  "usuario" : "admin1",
+  "dataHora" : "30/01/2023 14:45:32"
+}, {
+  "tipo" : "OPERAÇÃO",
+  "informacao" : "Saldo calculado com sucesso",
+  "usuario" : "balcaoA2",
+  "dataHora" : "30/01/2023 14:45:32"
+}, {
+  "tipo" : "INFORMAÇÃO",
+  "informacao" : "Download concluído",
+  "usuario" : "tiuser2",
+  "dataHora" : "30/01/2023 14:45:32"
 } ]

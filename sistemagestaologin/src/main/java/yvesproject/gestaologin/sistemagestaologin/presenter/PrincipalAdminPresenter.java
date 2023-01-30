@@ -18,6 +18,7 @@ import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
+import yvesproject.gestaologin.sistemagestaologin.view.ConfiguracoesAdminView;
 import yvesproject.gestaologin.sistemagestaologin.view.EnviarNotificacaoAllUsersView;
 import yvesproject.gestaologin.sistemagestaologin.view.EnviarNotificacaoUserView;
 import yvesproject.gestaologin.sistemagestaologin.view.NotificacoesAdminView;
@@ -153,6 +154,16 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						atualizarPagina();
+					}
+				});
+			}
+		});
+		
+		this.view.getBtnConfiguracoes().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						new ConfiguracoesAdminPresenter(new ConfiguracoesAdminView());
 					}
 				});
 			}

@@ -31,13 +31,12 @@
 
     <dependencies>
         <!-- Dependencies -->
-		<!--<dependency>
-            <groupId>com.ufes.exercicio</groupId>
-            <artifactId>logadapter</artifactId>
+		<dependency>
+            <groupId>com.mycompany.sistemaregistrolog</groupId>
+            <artifactId>log</artifactId>
             <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/log-1.0-jar-with-dependencies.jar</systemPath>
-        </dependency>-->
+        </dependency>
+        
         <dependency>
         	<groupId>com.pss</groupId>
         	<artifactId>ValidadorSenha</artifactId>

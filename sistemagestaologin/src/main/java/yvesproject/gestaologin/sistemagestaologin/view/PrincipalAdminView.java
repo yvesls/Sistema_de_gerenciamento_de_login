@@ -30,6 +30,7 @@ public class PrincipalAdminView {
 	private JButton btnExcluirUsuario;
 	private JButton btnOpenNotificarUsuarioSelecionado;
 	private JButton btnAtualizarManualmente;
+	private JButton btnConfiguracoes;
 	
 	/**
 	 * @author yvesl
@@ -107,6 +108,11 @@ public class PrincipalAdminView {
 		btnBuscarUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBuscarUsuarios.setBounds(365, 11, 101, 33);
 		frame.getContentPane().add(btnBuscarUsuarios);
+		
+		btnConfiguracoes = new JButton("Configurações");
+		btnConfiguracoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnConfiguracoes.setBounds(450, 11, 150, 33);
+		frame.getContentPane().add(btnConfiguracoes);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 55, 909, 275);
@@ -207,5 +213,9 @@ public class PrincipalAdminView {
 
 	public JButton getBtnAtualizarManualmente() {
 		return btnAtualizarManualmente;
+	}
+
+	public JButton getBtnConfiguracoes() {
+		return btnConfiguracoes;
 	}
 }
