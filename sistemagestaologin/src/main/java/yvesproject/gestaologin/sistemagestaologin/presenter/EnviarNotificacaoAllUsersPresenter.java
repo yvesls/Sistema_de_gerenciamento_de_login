@@ -31,7 +31,7 @@ public class EnviarNotificacaoAllUsersPresenter {
 				// processa a notificação e fecha o chat
 				if (!view.getTxtMensagem().getText().isEmpty()) {
 					for(Usuario user : users) {
-						notificacao = new Notificacao(1, user.getIdUsuario(), view.getTxtMensagem().getText(),"não lida");
+						notificacao = new Notificacao(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador(), user.getIdUsuario(), view.getTxtMensagem().getText(),"não lida");
 						notService = new NotificacaoService(new Usuario(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador(), "administrador"), notificacao, principalPresenter);
 						if (notService.enviarNotificacaoAdminParaSelecionados()) {
 							if(notService.atualizaQtdNotificacoesEnviadas()) {

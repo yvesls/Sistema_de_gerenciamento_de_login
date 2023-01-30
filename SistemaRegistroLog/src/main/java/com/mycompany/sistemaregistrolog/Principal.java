@@ -5,8 +5,7 @@
  */
 package com.mycompany.sistemaregistrolog;
 
-import org.apache.commons.logging.LogFactory;
-
+import com.mycompany.sistemaregistrolog.adaptador.FactoryLog;
 import com.mycompany.sistemaregistrolog.adaptador.LogAdapter;
 import com.mycompany.sistemaregistrolog.model.RegistroLog;
 import com.mycompany.sistemaregistrolog.service.LogService;
@@ -25,8 +24,8 @@ public class Principal {
                 new RegistroLog("INFORMAÇÃO", "Download concluído", "tiuser2")
             };
 
-            LogAdapter loggerToCSV = LogFactory.criar("csv", "log");
-            LogAdapter loggerToJSON = LogFactory.criar("json", "log");
+            LogAdapter loggerToCSV = FactoryLog.criar("csv", "log");
+            LogAdapter loggerToJSON = FactoryLog.criar("json", "log");
             
             
             LogService logService = new LogService(loggerToCSV);
@@ -38,7 +37,6 @@ public class Principal {
 
             logService.setLog(loggerToCSV);
             logService.escrever(registrosLog);
-            
 
         } catch (Exception e) {
             System.out.println("Falha:\n" + e.getMessage());

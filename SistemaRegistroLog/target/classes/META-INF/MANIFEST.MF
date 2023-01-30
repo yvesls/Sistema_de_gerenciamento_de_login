@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: Clￃﾭnica Eng Software
-Build-Jdk: 17.0.3.1
+Built-By: yvesl
+Build-Jdk: 17.0.4.1
 Created-By: Maven Integration for Eclipse
 

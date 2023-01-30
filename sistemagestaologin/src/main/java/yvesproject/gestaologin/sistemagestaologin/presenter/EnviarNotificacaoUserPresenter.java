@@ -39,9 +39,8 @@ public class EnviarNotificacaoUserPresenter {
 	}
 	
 	public void enviarNotificacao() {
-		notificacao = new Notificacao(1, usuarioSelecionado.getIdUsuario(), view.getTxtMensagem().getText(),"não lida");
 		int idAdmin = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador();
-		System.out.println(idAdmin);
+		notificacao = new Notificacao(idAdmin, usuarioSelecionado.getIdUsuario(), view.getTxtMensagem().getText(),"não lida");
 		notService = new NotificacaoService(new Usuario(idAdmin, "administrador"), notificacao, principalPresenter);
 		if (notService.enviarNotificacaoAdminParaSelecionados()) {
 			if(notService.atualizaQtdNotificacoesEnviadas()) {

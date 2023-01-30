@@ -102,7 +102,7 @@ public class NotificacoesUsuarioPresenter extends Subject implements Observer {
 				notModelSelecionado.setNumRows(0);
 				notSelecionada = null;
 			}
-		} else if(status.equals("atualizar lista de notificações usuário")) {
+		} else if(status.equals("atualizar lista de notificações")) {
 			this.nots = getTodasNotNaoLidasEnderecadasAoUsuario();
 			exibirTodasNotificacoesEnderecadasAoUsuario();
 			if (notModelSelecionado != null) {
