@@ -12,34 +12,22 @@ import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
 public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificacaoDAO {
 
 	@Override
-	public boolean salvar(Notificacao notificacao) {
+	public boolean salvar(Notificacao notificacao) throws SQLException {
 		PreparedStatement stmt = null;
-		try {
-			conectar();
-			String sql = ""
-					+ "INSERT INTO Notificacoes (idRemetente, idDestinatario, descricao, status, data) "
-					+ "VALUES (?, ?, ?, ?, ?);";
-			
-			stmt = criarStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(1, notificacao.getIdRemetente());
-			stmt.setInt(2, notificacao.getIdDestinatario());
-			stmt.setString(3, notificacao.getDescricao());
-			stmt.setString(4, notificacao.getStatus());
-			stmt.setString(5, notificacao.getData());
-			
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+
+		conectar();
+		String sql = "" + "INSERT INTO Notificacoes (idRemetente, idDestinatario, descricao, status, data) "
+				+ "VALUES (?, ?, ?, ?, ?);";
+
+		stmt = criarStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		stmt.setInt(1, notificacao.getIdRemetente());
+		stmt.setInt(2, notificacao.getIdDestinatario());
+		stmt.setString(3, notificacao.getDescricao());
+		stmt.setString(4, notificacao.getStatus());
+		stmt.setString(5, notificacao.getData());
+
+		stmt.executeUpdate();
+		stmt.close();
 		fechar();
 		return true;
 	}
@@ -49,32 +37,21 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	public boolean atualizarStatus(Notificacao notificacao){
+
+	public boolean atualizarStatus(Notificacao notificacao) throws SQLException {
 		conectar();
-		String sql = "UPDATE Notificacoes SET status=?"
-				+ "WHERE idNotificacao = '" + notificacao.getIdNotificacao() + "'AND idRemetente = '" + notificacao.getIdRemetente() + "' AND idDestinatario = '"+ notificacao.getIdDestinatario() +"';";
+		String sql = "UPDATE Notificacoes SET status=?" + "WHERE idNotificacao = '" + notificacao.getIdNotificacao()
+				+ "'AND idRemetente = '" + notificacao.getIdRemetente() + "' AND idDestinatario = '"
+				+ notificacao.getIdDestinatario() + "';";
 		PreparedStatement stmt = criarStatement(sql);
-		try {
-			stmt.setString(1, notificacao.getStatus());
-			stmt.executeUpdate();
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		stmt.setString(1, notificacao.getStatus());
+		stmt.executeUpdate();
+		fechar();
+		stmt.close();
 		return true;
 	}
-	
-	public ArrayList<Notificacao> getTodasNotificacoesNaoLidasEnderecadasAdmin(){
+
+	public ArrayList<Notificacao> getTodasNotificacoesNaoLidasEnderecadasAdmin() throws SQLException {
 		conectar();
 		ArrayList<Notificacao> listaNots = new ArrayList<>();
 		Notificacao not = new Notificacao();
@@ -83,29 +60,20 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		String sql = "SELECT * FROM Notificacoes WHERE idDestinatario = 1 AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
-		try {
-			result = stmt.executeQuery();
-			while (result.next()) {
-				not = new Notificacao(result.getInt("idNotificacao"), result.getInt("idRemetente"), result.getInt("idDestinatario"), result.getString("descricao"),
-						result.getString("data"), result.getString("status"));
-				listaNots.add(not);
-			}
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+
+		result = stmt.executeQuery();
+		while (result.next()) {
+			not = new Notificacao(result.getInt("idNotificacao"), result.getInt("idRemetente"),
+					result.getInt("idDestinatario"), result.getString("descricao"), result.getString("data"),
+					result.getString("status"));
+			listaNots.add(not);
 		}
+		fechar();
+		stmt.close();
 		return listaNots;
 	}
-	
-	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoUsuario(int idUsuario){
+
+	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoUsuario(int idUsuario) throws SQLException {
 		conectar();
 		ArrayList<Notificacao> listaNots = new ArrayList<>();
 		Notificacao not = new Notificacao();
@@ -114,29 +82,20 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		String sql = "SELECT * FROM Notificacoes WHERE idDestinatario = " + idUsuario + " AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
-		try {
-			result = stmt.executeQuery();
-			while (result.next()) {
-				not = new Notificacao(result.getInt("idNotificacao"), result.getInt("idRemetente"), result.getInt("idDestinatario"), result.getString("descricao"),
-						result.getString("data"), result.getString("status"));
-				listaNots.add(not);
-			}
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		result = stmt.executeQuery();
+		while (result.next()) {
+			not = new Notificacao(result.getInt("idNotificacao"), result.getInt("idRemetente"),
+					result.getInt("idDestinatario"), result.getString("descricao"), result.getString("data"),
+					result.getString("status"));
+			listaNots.add(not);
 		}
+		fechar();
+
+		stmt.close();
 		return listaNots;
 	}
-	
-	public int getQtdNotificacoesNaoLidasEnderecadasAdmin() {
+
+	public int getQtdNotificacoesNaoLidasEnderecadasAdmin() throws SQLException {
 		conectar();
 		int qtd = -1;
 		ResultSet result = null;
@@ -144,55 +103,36 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = 1 AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
-		try {
-			result = stmt.executeQuery();
-			while (result.next()) {
-				qtd = result.getInt(1);
-			}
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		result = stmt.executeQuery();
+		while (result.next()) {
+			qtd = result.getInt(1);
 		}
+		fechar();
+
+		stmt.close();
 		return qtd;
 	}
-	
-	public int getQtdNotificacoesNaoLidasEnderecadasUsuario(int idUsuario) {
+
+	public int getQtdNotificacoesNaoLidasEnderecadasUsuario(int idUsuario) throws SQLException {
 		conectar();
 		int qtd = -1;
 		ResultSet result = null;
 		PreparedStatement stmt = null;
-		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = " + idUsuario + " AND status = 'não lida';";
+		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idDestinatario = " + idUsuario
+				+ " AND status = 'não lida';";
 
 		stmt = criarStatement(sql);
-		try {
-			result = stmt.executeQuery();
-			while (result.next()) {
-				qtd = result.getInt(1);
-			}
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		result = stmt.executeQuery();
+		while (result.next()) {
+			qtd = result.getInt(1);
 		}
+		fechar();
+
+		stmt.close();
 		return qtd;
 	}
-	
-	public int getQtdNotificacoesLidasRemetente(int idRemetente) {
+
+	public int getQtdNotificacoesLidasRemetente(int idRemetente) throws SQLException {
 		conectar();
 		int qtd = -1;
 		ResultSet result = null;
@@ -200,27 +140,17 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE status = 'lida' AND idRemetente = '" + idRemetente + "';";
 
 		stmt = criarStatement(sql);
-		try {
-			result = stmt.executeQuery();
-			while (result.next()) {
-				qtd = result.getInt(1);
-			}
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+
+		result = stmt.executeQuery();
+		while (result.next()) {
+			qtd = result.getInt(1);
 		}
+		fechar();
+		stmt.close();
 		return qtd;
 	}
-	
-	public int getQtdNotificacoesEnviadasRemetente(int idRemetente) {
+
+	public int getQtdNotificacoesEnviadasRemetente(int idRemetente) throws SQLException {
 		conectar();
 		int qtd = -1;
 		ResultSet result = null;
@@ -228,23 +158,13 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		String sql = "SELECT COUNT(*) FROM Notificacoes WHERE idRemetente = '" + idRemetente + "';";
 
 		stmt = criarStatement(sql);
-		try {
-			result = stmt.executeQuery();
-			while (result.next()) {
-				qtd = result.getInt(1);
-			}
-			fechar();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+
+		result = stmt.executeQuery();
+		while (result.next()) {
+			qtd = result.getInt(1);
 		}
+		fechar();
+		stmt.close();
 		return qtd;
 	}
 }

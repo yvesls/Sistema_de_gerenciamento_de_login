@@ -19,6 +19,7 @@ public class NotificacoesAdminView {
 	private DefaultTableModel modelSelecionado;
 	private JButton btnMarcarComoLida;
 	private JButton btnFechar;
+	private JButton btnInvalidarSolicitacao;
 	
 	/**
 	 * @author yvesl
@@ -68,10 +69,15 @@ public class NotificacoesAdminView {
 		scrollPaneNotSelecionado.setBounds(37, 361, 858, 24);
 		frame.getContentPane().add(scrollPaneNotSelecionado);
 		
-		btnMarcarComoLida = new JButton("Validar usuário");
+		btnMarcarComoLida = new JButton("Validar solicitação");
 		btnMarcarComoLida.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnMarcarComoLida.setBounds(678, 402, 217, 30);
 		frame.getContentPane().add(btnMarcarComoLida);
+		
+		btnInvalidarSolicitacao = new JButton("Invalidar solicitação");
+		btnInvalidarSolicitacao.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnInvalidarSolicitacao.setBounds(434, 402, 217, 30);
+		frame.getContentPane().add(btnInvalidarSolicitacao);
 		
 		btnFechar = new JButton("Fechar");
 		btnFechar.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -105,5 +111,9 @@ public class NotificacoesAdminView {
 
 	public JButton getBtnFechar() {
 		return btnFechar;
+	}
+
+	public JButton getBtnInvalidarSolicitacao() {
+		return btnInvalidarSolicitacao;
 	}
 }

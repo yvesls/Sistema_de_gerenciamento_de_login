@@ -1,9 +1,12 @@
 package yvesproject.gestaologin.sistemagestaologin.presenter;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -13,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
+import yvesproject.gestaologin.sistemagestaologin.bussiness.log.SingletonLogStrategy;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
@@ -46,7 +50,21 @@ public class NotificacoesAdminPresenter extends Subject implements Observer {
 					// modifica o state do usuario
 					autentificarUsuario();
 					// chama a service de notificações
-					getNotificacoesService();
+					getNotificacoesService(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione uma notificação primeiro.");
+				}
+			}
+		});
+
+		view.getBtnInvalidarSolicitacao().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// verifica se há notificação selecionada
+				if (notSelecionada != null) {
+					// modifica o state do usuario
+					InvalidarAutentificacaoUsuario();
+					// chama a service de notificações
+					getNotificacoesService(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Selecione uma notificação primeiro.");
 				}
@@ -57,7 +75,12 @@ public class NotificacoesAdminPresenter extends Subject implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// Modifica o status da notificação
 				add(principalPresenter);
-				notifyObservers("atualizar notificações lidas");
+				try {
+					notifyObservers("atualizar notificações lidas");
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				view.getFrame().setVisible(false);
 			}
 		});
@@ -88,8 +111,14 @@ public class NotificacoesAdminPresenter extends Subject implements Observer {
 
 	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoAdmin() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
-				.getTodasNotificacoesNaoLidasEnderecadasAdmin();
+		try {
+			return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
+					.getTodasNotificacoesNaoLidasEnderecadasAdmin();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
@@ -121,14 +150,65 @@ public class NotificacoesAdminPresenter extends Subject implements Observer {
 		}
 	}
 
-	public void getNotificacoesService() {
-		notificacaoService = new NotificacaoService(usuario, notSelecionada, this);
-		add(notificacaoService);
-		notifyObservers("administrador valida login do usuário");
+	public void getNotificacoesService(boolean isValida) {
+		if (isValida) {
+			notificacaoService = new NotificacaoService(usuario, notSelecionada, this);
+			add(notificacaoService);
+			try {
+				notifyObservers("administrador valida login do usuário");
+				SingletonLogStrategy.getInstance().getLog().registrarLog("Envio de notificações", usuario.getNome(),
+						usuario.getTipo());
+				SingletonLogStrategy.getInstance().getLog().registrarLog("Leitura de notificações", usuario.getNome(),
+						usuario.getTipo());
+				SingletonLogStrategy.getInstance().getLog().registrarLog("Validação de usuário", usuario.getNome(),
+						usuario.getTipo());
+			} catch (HeadlessException | SQLException | IOException e) {
+				try {
+					SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(),
+							"Envio de notificações", usuario.getNome(), usuario.getTipo());
+					SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(),
+							"Leitura de notificações", usuario.getNome(), usuario.getTipo());
+					SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Validação de usuário",
+							usuario.getNome(), usuario.getTipo());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}
+		} else {
+			notificacaoService = new NotificacaoService(usuario, notSelecionada, this);
+			add(notificacaoService);
+			try {
+				notifyObservers("administrador invalida login do usuário");
+				SingletonLogStrategy.getInstance().getLog().registrarLog("Leitura de notificações", usuario.getNome(),
+						usuario.getTipo());
+				SingletonLogStrategy.getInstance().getLog().registrarLog("Validação de usuário", usuario.getNome(),
+						usuario.getTipo());
+			} catch (HeadlessException | SQLException | IOException e) {
+				try {
+					SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(),
+							"Leitura de notificações", usuario.getNome(), usuario.getTipo());
+					SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Validação de usuário",
+							usuario.getNome(), usuario.getTipo());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 
 	public void autentificarUsuario() {
 		modificiarUsuario = new Usuario(notSelecionada.getIdRemetente(), "usuario");
 		modificiarUsuario.ativarUsuarioState(usuario);
+	}
+
+	public void InvalidarAutentificacaoUsuario() {
+		modificiarUsuario = new Usuario(notSelecionada.getIdRemetente(), "usuario");
+		modificiarUsuario.cancelarUsuarioState(usuario);
 	}
 }

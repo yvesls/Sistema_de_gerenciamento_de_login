@@ -2,10 +2,13 @@ package yvesproject.gestaologin.sistemagestaologin.presenter;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -15,9 +18,11 @@ import javax.swing.table.DefaultTableModel;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
+import yvesproject.gestaologin.sistemagestaologin.bussiness.log.SingletonLogStrategy;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
+import yvesproject.gestaologin.sistemagestaologin.view.AlterarSenhaUserView;
 import yvesproject.gestaologin.sistemagestaologin.view.ConfiguracoesAdminView;
 import yvesproject.gestaologin.sistemagestaologin.view.EnviarNotificacaoAllUsersView;
 import yvesproject.gestaologin.sistemagestaologin.view.EnviarNotificacaoUserView;
@@ -83,12 +88,27 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 							int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este usuário?",
 									  "Exit", JOptionPane.OK_CANCEL_OPTION);
 							if (op == JOptionPane.OK_OPTION) {
-								if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
-										.remover(userSelecionado.getIdUsuario())) {
-									ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-									JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso.", "Sucesso",
-											JOptionPane.INFORMATION_MESSAGE);
-									atualizarPagina();
+								try {
+									if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
+											.remover(userSelecionado.getIdUsuario())) {
+										ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
+										JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso.", "Sucesso",
+												JOptionPane.INFORMATION_MESSAGE);
+										atualizarPagina();
+										SingletonLogStrategy.getInstance().getLog().registrarLog("Exclusão de usuário",
+												adminLogado.getNome(),
+												adminLogado.getTipo());
+									}
+								} catch (HeadlessException | SQLException | IOException e) {
+									try {
+										SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Exclusão de usuário",
+												adminLogado.getNome(),
+												adminLogado.getTipo());
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									e.printStackTrace();
 								}
 							}
 						} else {
@@ -121,7 +141,12 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 						// realiza o processo de busca e exibe na tabela
 						if(!view.getTextFieldCampoBuscar().getText().isEmpty()) {
 							ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-							users = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuariosPorNome(view.getTextFieldCampoBuscar().getText());
+							try {
+								users = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuariosPorNome(view.getTextFieldCampoBuscar().getText());
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							if(!users.isEmpty()) {
 								exibirTodosUsuarios();
 							}else {
@@ -168,6 +193,14 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 				});
 			}
 		});
+		
+		view.getBtnOpenAlterarSenha().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// inicia o presenter e a view responsável por alterar a senha do usuário
+				AlterarSenhaUserView window = new AlterarSenhaUserView();
+				new AlterarSenhaUserPresenter(window, adminLogado);
+			}
+		});
 	}
 
 	@Override
@@ -176,7 +209,12 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 				|| status.equals("administrador enviou notificação para usuário selecionado")
 				|| status.equals("administrador enviou notificação para todos os usuários")
 				|| status.equals("atualizar página")) {
-			this.users = this.buscarTodosUsuarios();
+			try {
+				this.users = this.buscarTodosUsuarios();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// limpa campo de busca
 			this.view.getTextFieldCampoBuscar().setText("");
 			// recupera todas as notificações do administrador
@@ -196,7 +234,7 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 		}
 	}
 
-	public ArrayList<Usuario> buscarTodosUsuarios() {
+	public ArrayList<Usuario> buscarTodosUsuarios() throws SQLException {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		return ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getTodosUsuarios();
 	}
@@ -219,8 +257,13 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 
 	public void getQtdNotificacoesAdmin() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
-				.getQtdNotificacoesNaoLidasEnderecadasAdmin();
+		try {
+			numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
+					.getQtdNotificacoesNaoLidasEnderecadasAdmin();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (numNotificacoes != 0) {
 			view.getBtnOpenNotificacoes().setText(String.valueOf(numNotificacoes));
 			view.getBtnOpenNotificacoes().setBackground(Color.red);
@@ -235,7 +278,12 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 		NotificacoesAdminView window = new NotificacoesAdminView();
 		notificacoesPresenter = new NotificacoesAdminPresenter(window, this, adminLogado);
 		add(notificacoesPresenter);
-		notifyObservers("abrir notificações");
+		try {
+			notifyObservers("abrir notificações");
+		} catch (HeadlessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void enviarNotUser() {
@@ -255,7 +303,12 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 	
 	public void atualizarPagina() {
 		add(this);
-		notifyObservers("atualizar página");
+		try {
+			notifyObservers("atualizar página");
+		} catch (HeadlessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Usuario getAdminLogado() {

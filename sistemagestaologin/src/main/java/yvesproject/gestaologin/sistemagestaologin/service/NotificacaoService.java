@@ -1,5 +1,8 @@
 package yvesproject.gestaologin.sistemagestaologin.service;
 
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
@@ -34,12 +37,12 @@ public class NotificacaoService extends Subject implements Observer {
 	}
 
 	// atualiza o status da notificação
-	public boolean atualizarStatusNotificacao() {
+	public boolean atualizarStatusNotificacao() throws SQLException {
 		notificacao.setStatus("lida");
 		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().atualizarStatus(this.notificacao);
 	}
 
-	public boolean atualizarQtdNotificacaoLida() {
+	public boolean atualizarQtdNotificacaoLida() throws SQLException {
 		qtdNotLidas = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
 				.getQtdNotificacoesLidasRemetente(notificacao.getIdRemetente());
 		Usuario usuarioNot = new Usuario();
@@ -49,23 +52,24 @@ public class NotificacaoService extends Subject implements Observer {
 	}
 
 	// envia uma notificação de confirmação e boas vindas para o usuário.
-	public boolean notificarConfirmacaoPadraoBoasVindas() {
+	public boolean notificarConfirmacaoPadraoBoasVindas() throws SQLException {
 		notEnvio = new Notificacao(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIdAdministrador(),
 				notificacao.getIdRemetente(), "Bem vindo!", "não lida");
 		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(notEnvio);
 	}
 
-	public boolean enviarNotificacaoAdminParaSelecionados() {
+	public boolean enviarNotificacaoAdminParaSelecionados() throws SQLException {
 		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().salvar(notificacao);
 	}
 
-	public boolean atualizaQtdNotificacoesEnviadas() {
+	public boolean atualizaQtdNotificacoesEnviadas() throws HeadlessException, SQLException {
 		Usuario atualizarQtdNotEnv = new Usuario();
 		qtdNotEnviadas = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
 				.getQtdNotificacoesEnviadasRemetente(usuario.getIdUsuario());
 		atualizarQtdNotEnv.setNotEnviadas(qtdNotEnviadas++);
 		atualizarQtdNotEnv.setIdUsuario(usuario.getIdUsuario());
-		if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarQtdNotificacoesEnviadas(atualizarQtdNotEnv)) {
+		if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
+				.atualizarQtdNotificacoesEnviadas(atualizarQtdNotEnv)) {
 			add(observador);
 			notifyObservers("atualizar lista de notificações");
 			return true;
@@ -74,7 +78,7 @@ public class NotificacaoService extends Subject implements Observer {
 		return false;
 	}
 
-	public boolean enviarNotificacaoDeAutentificacao(int idGerado, Usuario novoUsuario) {
+	public boolean enviarNotificacaoDeAutentificacao(int idGerado, Usuario novoUsuario) throws SQLException {
 
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		this.notificacao = new Notificacao(idGerado,
@@ -86,18 +90,16 @@ public class NotificacaoService extends Subject implements Observer {
 			ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizar(novoUsuario);
 			return true;
 		}
-
 		return false;
 	}
 
 	@Override
-	public void update(String status) {
+	public void update(String status) throws HeadlessException, SQLException {
 		if (status.equals("administrador valida login do usuário")) {
 			if (atualizarStatusNotificacao()) {
 				if (atualizarQtdNotificacaoLida()) {
 					if (notificarConfirmacaoPadraoBoasVindas()) {
 						if (atualizaQtdNotificacoesEnviadas()) {
-
 						} else {
 							JOptionPane.showMessageDialog(null,
 									"Ocorreu um erro inesperado ao atualizar a sua quantidade de notificação enviada. Tente novamente mais tarde.",
@@ -121,13 +123,6 @@ public class NotificacaoService extends Subject implements Observer {
 		} else if (status.equals("usuário leu a notificação")) {
 			if (atualizarStatusNotificacao()) {
 				if (atualizarQtdNotificacaoLida()) {
-					if (atualizaQtdNotificacoesEnviadas()) {
-
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"Ocorreu um erro inesperado ao atualizar a sua quantidade de notificação enviada. Tente novamente mais tarde.",
-								"Atenção", JOptionPane.INFORMATION_MESSAGE);
-					}
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"Ocorreu um erro inesperado ao atualizar a quantidade de notificação lida do usuário. Tente novamente mais tarde.",
@@ -138,6 +133,15 @@ public class NotificacaoService extends Subject implements Observer {
 						"Ocorreu um erro inesperado ao atualizar o status da notificação. Tente novamente mais tarde.",
 						"Atenção", JOptionPane.INFORMATION_MESSAGE);
 			}
+		} else if (status.equals("administrador invalida login do usuário")) {
+			if (atualizarStatusNotificacao()) {
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Ocorreu um erro inesperado ao atualizar o status da notificação. Tente novamente mais tarde.",
+						"Atenção", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
+		add(observador);
+		notifyObservers("atualizar lista de notificações");
 	}
 }

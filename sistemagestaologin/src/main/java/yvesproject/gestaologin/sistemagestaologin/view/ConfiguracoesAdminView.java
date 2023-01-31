@@ -33,24 +33,24 @@ public class ConfiguracoesAdminView {
 		frame.setResizable(false);
 		
 		JLabel lblNovaSenha = new JLabel("Escolha o formato do arquivo de registro de operações:");
-		lblNovaSenha.setBounds(216, 118, 157, 27);
+		lblNovaSenha.setBounds(119, 84, 594, 27);
 		lblNovaSenha.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		frame.getContentPane().add(lblNovaSenha);
 		
 		logCsv = new JRadioButton("CSV", true);
 		logCsv.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		logCsv.setBounds(216, 146, 401, 40);
+		logCsv.setBounds(186, 135, 401, 40);
 		frame.getContentPane().add(logCsv);
 		
 		
 		logJson = new JRadioButton("JSON", false);
 		logJson.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		logJson.setBounds(525, 316, 92, 31);
+		logJson.setBounds(186, 193, 401, 31);
 		frame.getContentPane().add(logJson);
 		
 		btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		btnConfirmar.setBounds(216, 250, 401, 40);
+		btnConfirmar.setBounds(186, 257, 401, 40);
 		frame.getContentPane().add(btnConfirmar);
 	}
 

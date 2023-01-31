@@ -1,9 +1,12 @@
 package yvesproject.gestaologin.sistemagestaologin.presenter;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -13,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
+import yvesproject.gestaologin.sistemagestaologin.bussiness.log.SingletonLogStrategy;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Observer;
 import yvesproject.gestaologin.sistemagestaologin.bussiness.observer.Subject;
 import yvesproject.gestaologin.sistemagestaologin.model.Notificacao;
@@ -59,7 +63,12 @@ public class NotificacoesUsuarioPresenter extends Subject implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// Modifica o status da notificação
 				add(principalPresenter);
-				notifyObservers("atualizar quantidade de notificações do usuário");
+				try {
+					notifyObservers("atualizar quantidade de notificações do usuário");
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				view.getFrame().setVisible(false);
 			}
 		});
@@ -90,7 +99,13 @@ public class NotificacoesUsuarioPresenter extends Subject implements Observer {
 
 	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoUsuario() {
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getTodasNotNaoLidasEnderecadasAoUsuario(usuario.getIdUsuario());
+		try {
+			return ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().getTodasNotNaoLidasEnderecadasAoUsuario(usuario.getIdUsuario());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
@@ -123,6 +138,21 @@ public class NotificacoesUsuarioPresenter extends Subject implements Observer {
 	public void getNotificacoesService() {
 		notificacaoService = new NotificacaoService(usuario, notSelecionada, this);
 		add(notificacaoService);
-		notifyObservers("usuário leu a notificação");
+		try {
+			notifyObservers("usuário leu a notificação");
+			SingletonLogStrategy.getInstance().getLog().registrarLog("Leitura de notificações",
+					usuario.getNome(),
+					usuario.getTipo());
+		} catch (HeadlessException | SQLException | IOException e) {
+			try {
+				SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Leitura de notificações",
+						usuario.getNome(),
+						usuario.getTipo());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
 	}
 }

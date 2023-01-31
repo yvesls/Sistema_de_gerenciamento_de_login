@@ -27,10 +27,11 @@ public class LogCsvAdapter extends LogAdapter {
 
 	        for (RegistroLog registroLog : registrosLog) {
 	            String[] logString = {
-	                    registroLog.getTipo(),
-	                    registroLog.getInformacao(),
-	                    registroLog.getUsuario(),
-	                    registroLog.getDataHora().toString()
+	                    registroLog.getOperacao(),
+	                    registroLog.getNome(),
+	                    registroLog.getData(),
+	                    registroLog.getHora(),
+	                    registroLog.getTipoUsuario()
 	            };
 	            csvWriter.writeNext(logString);
 	        }

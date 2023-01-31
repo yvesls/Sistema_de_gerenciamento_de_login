@@ -1,5 +1,7 @@
 package yvesproject.gestaologin.sistemagestaologin.bussiness.loginstate;
 
+import java.sql.SQLException;
+
 import yvesproject.gestaologin.sistemagestaologin.DAO.ConexaoSingletonDAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.FactorySQLiteDAO;
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
@@ -9,7 +11,12 @@ public class DesabilitarUsuarioState extends UsuarioState {
 		super(user);
 		user.setState("aguardando autentificação");
 		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-		ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarStateUsuario(user);  
+		try {
+			ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarStateUsuario(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
 	}
 
 	@Override

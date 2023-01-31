@@ -1,7 +1,9 @@
 package yvesproject.gestaologin.sistemagestaologin.presenter;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -29,17 +31,24 @@ public class LoginPresenter extends Subject {
 		view.getBtnLogar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// valida se os campos foram preenchidos
-				if(!view.getTxtEmail().getText().isEmpty() && !view.getTxtSenha().getText().isEmpty()) {
+				if(!view.getTxtEmail().getText().isEmpty() || !view.getTxtSenha().getText().isEmpty()) {
 					// valida login
 					ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 					usuarioLogin = new Usuario(view.getTxtEmail().getText(), view.getTxtSenha().getText(), "", "", "", "", 0, 0);
-					usuarioLogin = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUserIsRegister(usuarioLogin);
+					try {
+						usuarioLogin = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUserIsRegister(usuarioLogin);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					// se o usuário existir, realiza o login e fecha a janela
 					if(usuarioLogin != null) {
-						validarStatusLogin();
-					}else if (usuarioLogin.getState().equals("cancelado")) {
-						JOptionPane.showMessageDialog(null, "A solicitação de autentificação do usuário foi negada ou o administrador baniu o usuário.", "Atenção",
-								JOptionPane.INFORMATION_MESSAGE);
+						if (usuarioLogin.getState().equals("cancelado")) {
+							JOptionPane.showMessageDialog(null, "A solicitação de autentificação do usuário foi negada ou o administrador baniu o usuário.", "Atenção",
+									JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							validarStatusLogin();
+						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Usuário não encontrado. Corrija algum campo ou se registre, caso seja sua primeira vez aqui.", "Atenção",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -73,13 +82,23 @@ public class LoginPresenter extends Subject {
 			PrincipalAdminView window = new PrincipalAdminView();
 			this.principalAdminPresenter = new PrincipalAdminPresenter(window, usuarioLogin);
 			this.add(principalAdminPresenter);
-			this.notifyObservers("login administrador");
+			try {
+				this.notifyObservers("login administrador");
+			} catch (HeadlessException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else {
 			view.getFrame().setVisible(false);
 			PrincipalUserView window = new PrincipalUserView();
 			this.principalUserPresenter = new PrincipalUserPresenter(window, usuarioLogin);
 			this.add(principalUserPresenter);
-			this.notifyObservers("login usuario");
+			try {
+				this.notifyObservers("login usuario");
+			} catch (HeadlessException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

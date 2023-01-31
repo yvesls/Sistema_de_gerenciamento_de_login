@@ -31,6 +31,7 @@ public class PrincipalAdminView {
 	private JButton btnOpenNotificarUsuarioSelecionado;
 	private JButton btnAtualizarManualmente;
 	private JButton btnConfiguracoes;
+	private JButton btnOpenAlterarSenha;
 	
 	/**
 	 * @author yvesl
@@ -91,7 +92,7 @@ public class PrincipalAdminView {
 		
 		btnOpenNotificarTodosUsuarios = new JButton("Notificar todos os usuários");
 		btnOpenNotificarTodosUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnOpenNotificarTodosUsuarios.setBounds(10, 373, 215, 26);
+		btnOpenNotificarTodosUsuarios.setBounds(398, 373, 215, 26);
 		frame.getContentPane().add(btnOpenNotificarTodosUsuarios);
 		
 		JLabel lblNewLabel = new JLabel("Nome:");
@@ -111,7 +112,7 @@ public class PrincipalAdminView {
 		
 		btnConfiguracoes = new JButton("Configurações");
 		btnConfiguracoes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnConfiguracoes.setBounds(450, 11, 150, 33);
+		btnConfiguracoes.setBounds(179, 374, 150, 25);
 		frame.getContentPane().add(btnConfiguracoes);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -140,18 +141,23 @@ public class PrincipalAdminView {
 		
 		btnExcluirUsuario = new JButton("Excluir usuário");
 		btnExcluirUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnExcluirUsuario.setBounds(776, 371, 143, 26);
+		btnExcluirUsuario.setBounds(776, 373, 143, 26);
 		frame.getContentPane().add(btnExcluirUsuario);
 		
 		btnOpenNotificarUsuarioSelecionado = new JButton("Notificar usuário");
 		btnOpenNotificarUsuarioSelecionado.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnOpenNotificarUsuarioSelecionado.setBounds(623, 371, 143, 26);
+		btnOpenNotificarUsuarioSelecionado.setBounds(623, 373, 143, 26);
 		frame.getContentPane().add(btnOpenNotificarUsuarioSelecionado);
 		
 		btnAtualizarManualmente = new JButton("Atualizar");
 		btnAtualizarManualmente.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAtualizarManualmente.setBounds(765, 11, 154, 33);
 		frame.getContentPane().add(btnAtualizarManualmente);
+		
+		btnOpenAlterarSenha = new JButton("Alterar Senha");
+		btnOpenAlterarSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnOpenAlterarSenha.setBounds(10, 374, 159, 25);
+		frame.getContentPane().add(btnOpenAlterarSenha);
 		
 		JLabel lblAtualizarManualmente = new JLabel("Atualizar página manualmente:");
 		lblAtualizarManualmente.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -217,5 +223,9 @@ public class PrincipalAdminView {
 
 	public JButton getBtnConfiguracoes() {
 		return btnConfiguracoes;
+	}
+
+	public JButton getBtnOpenAlterarSenha() {
+		return btnOpenAlterarSenha;
 	}
 }

@@ -1,5 +1,7 @@
 package yvesproject.gestaologin.sistemagestaologin.bussiness.observer;
 
+import java.awt.HeadlessException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class Subject {
 		observers.add(observer);
 	}
 
-	public void notifyObservers(String status) {
+	public void notifyObservers(String status) throws HeadlessException, SQLException {
 		for (Observer o : observers) {
 			o.update(status);
 		}
