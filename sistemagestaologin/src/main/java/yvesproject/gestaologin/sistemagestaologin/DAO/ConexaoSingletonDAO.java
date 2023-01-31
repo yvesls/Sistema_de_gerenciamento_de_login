@@ -3,8 +3,8 @@ package yvesproject.gestaologin.sistemagestaologin.DAO;
 import yvesproject.gestaologin.sistemagestaologin.DAO.interfaces.IFactorySQLiteDAO;
 
 public class ConexaoSingletonDAO {
-private static ConexaoSingletonDAO singleton;
-	
+	private static ConexaoSingletonDAO singleton;
+
 	private UsuarioSQLiteDAO usuarioSqliteDAO;
 	private NotificacaoSQLiteDAO notificacaoSqliteDAO;
 
@@ -34,6 +34,5 @@ private static ConexaoSingletonDAO singleton;
 	public NotificacaoSQLiteDAO getNotificacaoSqliteDAO() {
 		return notificacaoSqliteDAO;
 	}
-	
-	
+
 }
