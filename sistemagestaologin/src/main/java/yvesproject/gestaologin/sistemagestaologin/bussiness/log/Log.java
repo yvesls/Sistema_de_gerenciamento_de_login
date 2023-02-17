@@ -10,8 +10,6 @@ import com.mycompany.sistemaregistrolog.adaptador.LogAdapter;
 import com.mycompany.sistemaregistrolog.model.RegistroLog;
 import com.mycompany.sistemaregistrolog.service.LogService;
 
-import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
-
 public class Log {
 	private static LogAdapter loggerToJson = FactoryLog.criar("json", "log");
 	private static LogAdapter loggerToCSV = FactoryLog.criar("csv", "log");

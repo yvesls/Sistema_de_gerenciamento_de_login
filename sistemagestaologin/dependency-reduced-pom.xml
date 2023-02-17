@@ -21,10 +21,6 @@
         <version>3.8.1</version>
       </plugin>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M4</version>
-      </plugin>
-      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.2.0</version>
       </plugin>
@@ -53,6 +49,12 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -110,12 +112,11 @@
     <java.version>11</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.jar>3.2.0</maven.jar>
-    <maven.compiler>3.8.1</maven.compiler>
     <maven.shade>3.2.2</maven.shade>
+    <maven.compiler>3.8.1</maven.compiler>
     <maven.install>3.0.0-M1</maven.install>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <maven.resources>3.1.0</maven.resources>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.surefire>3.0.0-M5</maven.surefire>
   </properties>
 </project>
