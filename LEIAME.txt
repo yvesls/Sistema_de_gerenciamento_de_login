@@ -1,0 +1,16 @@
+PARA QUE O PROJETO FUNCIONE: 
+1-1. 	Importe o projeto no netbeans, clique com o segundo botão do mouse no projeto e clique em "construir com dependências".
+1-2. 	Importe o projeto no eclipse, clique com o segundo botão do mouse no projeto e clique em "maven"->"update project".
+2.	Execute o App.java do projeto.
+
+REQUISITOS:
+- Java 11 ou superior.
+
+OBS: 
+- Para logar como administrador: 
+Login: joaquim.silveira@user.com
+Senha: Joa$674
+
+- Para logar como um usuário comum já criado (caso não queira criar um): 
+Login: goodman.saul@user.com
+Senha: Soul#14

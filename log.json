@@ -1,0 +1,43 @@
+[ {
+  "operacao" : "Envio de notificações",
+  "nome" : "Joaquim Silveira",
+  "data" : "31/01/2023",
+  "hora" : "16:22:15",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Envio de notificações",
+  "nome" : "Joaquim Silveira",
+  "data" : "20/02/2023",
+  "hora" : "15:02:24",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Envio de notificações",
+  "nome" : "Joaquim Silveira",
+  "data" : "20/02/2023",
+  "hora" : "15:44:22",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Exclusão de usuário",
+  "nome" : "Joaquim Silveira",
+  "data" : "20/02/2023",
+  "hora" : "16:12:14",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Leitura de notificações",
+  "nome" : "Albert Francisco Marrocos",
+  "data" : "20/02/2023",
+  "hora" : "16:25:23",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Inclusão de usuário",
+  "nome" : "Albert Francisco Marrocos",
+  "data" : "20/02/2023",
+  "hora" : "16:25:25",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : null
+} ]
