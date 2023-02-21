@@ -35,6 +35,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/* @ yves
+	 * RegistrarPresenter */
 	@Override
 	public int salvar(Usuario usuario) throws SQLException {
 		PreparedStatement stmt = null;
@@ -68,6 +71,8 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return idGerado;
 	}
 
+	/* @ yves
+	 * PrincipalAdminPresenter */
 	@Override
 	public boolean remover(int idUsuario) throws SQLException {
 		conectar();
@@ -80,6 +85,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return true;
 	}
 
+	/* @ yves
+	 * AlterarSenha, NotificacaoService */
+	@Override
 	public boolean atualizar(Usuario usuario) throws SQLException {
 		conectar();
 		String sql = "UPDATE Usuario SET email=?, "
@@ -102,6 +110,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return true;
 	}
 
+	/* @ yves
+	 * NotificacaoService */
+	@Override
 	public boolean atualizarQtdNotificacoesLidas(Usuario usuario) throws SQLException {
 		conectar();
 		String sql = "UPDATE Usuario SET notificacoesLidas=? WHERE idUsuario = '" + usuario.getIdUsuario() + "';";
@@ -113,6 +124,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return true;
 	}
 
+	/* @ yves
+	 * NotificacaoService */
+	@Override
 	public boolean atualizarQtdNotificacoesEnviadas(Usuario usuario) throws SQLException {
 		conectar();
 		String sql = "UPDATE Usuario SET notificacoesEnviadas=? WHERE idUsuario = '" + usuario.getIdUsuario() + "';";
@@ -124,6 +138,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return true;
 	}
 
+	/* @ yves
+	 * AtivarUsuarioState, CancelarUsuarioState, DesabilitarUsuarioState */
+	@Override
 	public boolean atualizarStateUsuario(Usuario usuario) throws SQLException {
 		conectar();
 		String sql = "UPDATE Usuario SET status=? WHERE idUsuario = '" + usuario.getIdUsuario() + "';";
@@ -135,6 +152,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return true;
 	}
 
+	/* @ yves
+	 * RegistrarPresenter */
+	@Override
 	public Boolean getIsUsuarios() throws SQLException {
 		conectar();
 		ResultSet result = null;
@@ -154,6 +174,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return temRegistro;
 	}
 
+	/* @ yves
+	 * PrincipalAdminPresenter */
+	@Override
 	public ArrayList<Usuario> getUsuariosPorNome(String nome) throws SQLException {
 		conectar();
 		ArrayList<Usuario> listaUsers = new ArrayList<>();
@@ -179,6 +202,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return listaUsers;
 	}
 
+	/* @ yves
+	 * LoginPresenter */
+	@Override
 	public Usuario getUserIsRegister(Usuario usuario) throws SQLException {
 		conectar();
 		Usuario user = null;
@@ -203,6 +229,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return user;
 	}
 
+	/* @ yves
+	 * NotificacaoService */
+	@Override
 	public Usuario getUsuarioPorId(int idUsuario) throws SQLException {
 		conectar();
 		Usuario user = null;
@@ -226,6 +255,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return user;
 	}
 
+	/* @ yves
+	 * PrincipalAdminPresenter */
+	@Override
 	public ArrayList<Usuario> getTodosUsuarios() throws SQLException {
 		conectar();
 		ArrayList<Usuario> listaUsers = new ArrayList<>();
@@ -247,6 +279,9 @@ public class UsuarioSQLiteDAO extends ConexaoSQLiteDAO implements IUsuarioDAO {
 		return listaUsers;
 	}
 
+	/* @ yves
+	 * EnviarNotificacaoAllUsersPresenter, EnviarNotificacaoUserPresenter, NotificacaoPresenter */
+	@Override
 	public int getIdAdministrador() throws SQLException {
 		conectar();
 		int user = -1;

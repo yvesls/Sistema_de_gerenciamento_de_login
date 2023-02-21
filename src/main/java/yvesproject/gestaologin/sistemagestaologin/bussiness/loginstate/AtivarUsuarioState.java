@@ -13,13 +13,11 @@ public class AtivarUsuarioState extends UsuarioState {
 	public AtivarUsuarioState(Usuario user) {
 		super(user);
 		user.setState("ativo");
-		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		try {
 			if(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarStateUsuario(user)) {
 				JOptionPane.showMessageDialog(null, "Situação do usuário atualizada!");
 			}
 		} catch (HeadlessException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

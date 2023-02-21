@@ -10,11 +10,9 @@ public class DesabilitarUsuarioState extends UsuarioState {
 	public DesabilitarUsuarioState(Usuario user) {
 		super(user);
 		user.setState("aguardando autentificação");
-		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		try {
 			ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarStateUsuario(user);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  
 	}

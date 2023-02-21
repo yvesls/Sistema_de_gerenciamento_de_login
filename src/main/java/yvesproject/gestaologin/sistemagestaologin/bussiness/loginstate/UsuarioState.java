@@ -1,5 +1,4 @@
 package yvesproject.gestaologin.sistemagestaologin.bussiness.loginstate;
-
 import yvesproject.gestaologin.sistemagestaologin.model.Usuario;
 
 public abstract class UsuarioState {

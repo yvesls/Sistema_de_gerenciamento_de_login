@@ -35,6 +35,8 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		}
 	}
 
+	/* @ yves
+	 * NotificacaoService */
 	@Override
 	public boolean salvar(Notificacao notificacao) throws SQLException {
 		PreparedStatement stmt = null;
@@ -55,13 +57,22 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		fechar();
 		return true;
 	}
-
+	
 	@Override
-	public boolean remover() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean removerTodasNotificacoesUser(int idUsuario) throws SQLException {
+		conectar();
+		String sql = "DELETE FROM Notificacoes WHERE idRemetente = '" + idUsuario + "' OR idDestinatario ='" + idUsuario + "';";
+		PreparedStatement stmt = this.criarStatement(sql);
+		stmt.executeUpdate();
+		fechar();
+
+		stmt.close();
+		return true;
 	}
 
+	/* @ yves
+	 * NotificacaoService */
+	@Override
 	public boolean atualizarStatus(Notificacao notificacao) throws SQLException {
 		conectar();
 		String sql = "UPDATE Notificacoes SET status=?" + "WHERE idNotificacao = '" + notificacao.getIdNotificacao()
@@ -75,6 +86,9 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return true;
 	}
 
+	/* @ yves
+	 * NotificacoesAdminPresenter */
+	@Override
 	public ArrayList<Notificacao> getTodasNotificacoesNaoLidasEnderecadasAdmin() throws SQLException {
 		conectar();
 		ArrayList<Notificacao> listaNots = new ArrayList<>();
@@ -97,6 +111,9 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return listaNots;
 	}
 
+	/* @ yves
+	 * NotificacoesUsuarioPresenter */
+	@Override
 	public ArrayList<Notificacao> getTodasNotNaoLidasEnderecadasAoUsuario(int idUsuario) throws SQLException {
 		conectar();
 		ArrayList<Notificacao> listaNots = new ArrayList<>();
@@ -119,6 +136,9 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return listaNots;
 	}
 
+	/* @ yves
+	 * PrincipalAdminPresenter */
+	@Override
 	public int getQtdNotificacoesNaoLidasEnderecadasAdmin() throws SQLException {
 		conectar();
 		int qtd = -1;
@@ -137,6 +157,9 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return qtd;
 	}
 
+	/* @ yves
+	 * PrincipalUserPresenter */
+	@Override
 	public int getQtdNotificacoesNaoLidasEnderecadasUsuario(int idUsuario) throws SQLException {
 		conectar();
 		int qtd = -1;
@@ -156,6 +179,9 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		return qtd;
 	}
 
+	/* @ yves
+	 * NotificacaoService */
+	@Override
 	public int getQtdNotificacoesLidasRemetente(int idRemetente) throws SQLException {
 		conectar();
 		int qtd = -1;
@@ -173,7 +199,10 @@ public class NotificacaoSQLiteDAO extends ConexaoSQLiteDAO implements INotificac
 		stmt.close();
 		return qtd;
 	}
-
+	
+	/* @ yves
+	 * NotificacaoService */
+	@Override
 	public int getQtdNotificacoesEnviadasRemetente(int idRemetente) throws SQLException {
 		conectar();
 		int qtd = -1;

@@ -18,9 +18,7 @@ public class ConexaoSQLiteDAO {
         }
 		try {
 			setConexao(DriverManager.getConnection(url));
-			//System.out.println(conexao);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
@@ -44,7 +42,6 @@ public class ConexaoSQLiteDAO {
 			return this.getConexao().createStatement();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -55,7 +52,6 @@ public class ConexaoSQLiteDAO {
 			return this.getConexao().prepareStatement(pSQL, RETURN_GENERATE_KEYS);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -65,7 +61,6 @@ public class ConexaoSQLiteDAO {
 		try {
 			return this.getConexao().prepareStatement(pSQL);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

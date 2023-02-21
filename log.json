@@ -40,4 +40,88 @@
   "hora" : "16:25:25",
   "tipoUsuario" : "usuario",
   "mensagemErro" : null
+}, {
+  "operacao" : "Inclusão de usuário",
+  "nome" : " do contato Jhon August Miranda",
+  "data" : "21/02/2023",
+  "hora" : "10:18:15",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : "Ocorreu uma falha: [SQLITE_CONSTRAINT]  Abort due to constraint violation (UNIQUE constraint failed: Usuario.email) ao realizar a "
+}, {
+  "operacao" : "Inclusão de usuário",
+  "nome" : " do contato Jhon August Miranda",
+  "data" : "21/02/2023",
+  "hora" : "10:18:33",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : "Ocorreu uma falha: [SQLITE_CONSTRAINT]  Abort due to constraint violation (UNIQUE constraint failed: Usuario.email) ao realizar a "
+}, {
+  "operacao" : "Leitura de notificações",
+  "nome" : "Jhon August Miranda",
+  "data" : "21/02/2023",
+  "hora" : "10:18:49",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Inclusão de usuário",
+  "nome" : "Jhon August Miranda",
+  "data" : "21/02/2023",
+  "hora" : "10:18:51",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Leitura de notificações",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:32:16",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Validação de usuário",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:32:16",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Leitura de notificações",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:32:21",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Validação de usuário",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:32:21",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Exclusão de usuário",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:32:53",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Exclusão de usuário",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:33:44",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Envio de notificações",
+  "nome" : "Joaquim Silveira",
+  "data" : "21/02/2023",
+  "hora" : "10:38:44",
+  "tipoUsuario" : "administrador",
+  "mensagemErro" : null
+}, {
+  "operacao" : "Leitura de notificações",
+  "nome" : "Jimmy Soul Goodman",
+  "data" : "21/02/2023",
+  "hora" : "10:39:57",
+  "tipoUsuario" : "usuario",
+  "mensagemErro" : null
 } ]

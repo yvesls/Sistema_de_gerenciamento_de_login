@@ -89,7 +89,6 @@ public class RegistrarPresenter {
 	public void executaRegistro() {
 		if (validadorCamposPreenchidos == 2) {
 			// verifica se há usuários cadastrados, caso não tenha, registra o primeiro usuário como administrador
-			ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 			try {
 				if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getIsUsuarios()) {
 					// registrar usuário comum

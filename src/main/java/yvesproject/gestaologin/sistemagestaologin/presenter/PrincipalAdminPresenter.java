@@ -87,33 +87,7 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						if (userSelecionado != null) {
-							// confirma a ação do administrador
-							int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este usuário?",
-									  "Exit", JOptionPane.OK_CANCEL_OPTION);
-							if (op == JOptionPane.OK_OPTION) {
-								try {
-									if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
-											.remover(userSelecionado.getIdUsuario())) {
-										ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
-										JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso.", "Sucesso",
-												JOptionPane.INFORMATION_MESSAGE);
-										atualizarPagina();
-										SingletonLogStrategy.getInstance().getLog().registrarLog("Exclusão de usuário",
-												adminLogado.getNome(),
-												adminLogado.getTipo());
-									}
-								} catch (HeadlessException | SQLException | IOException e) {
-									try {
-										SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Exclusão de usuário",
-												adminLogado.getNome(),
-												adminLogado.getTipo());
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-									e.printStackTrace();
-								}
-							}
+							excluirUsuarioEDadosRelacionados();
 						} else {
 							JOptionPane.showMessageDialog(null, "É preciso selecionar um usuário primeiro!");
 						}
@@ -147,7 +121,6 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 					public void run() {
 						// realiza o processo de busca e exibe na tabela
 						if(!view.getTextFieldCampoBuscar().getText().isEmpty()) {
-							ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 							try {
 								users = ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().getUsuariosPorNome(view.getTextFieldCampoBuscar().getText());
 							} catch (SQLException e) {
@@ -272,7 +245,6 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 	 * @ yves
 	 * update (PrincipalAdminPresenter) */
 	private void getQtdNotificacoesAdmin() {
-		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		try {
 			numNotificacoes = ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO()
 					.getQtdNotificacoesNaoLidasEnderecadasAdmin();
@@ -339,6 +311,46 @@ public class PrincipalAdminPresenter extends Subject implements Observer {
 		} catch (HeadlessException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	/* realiza o processo de exclusão de funcionário e suas notificações
+	 * @ yves
+	 * resgatarAcoesView (PrincipalAdminPresenter) */
+	private void excluirUsuarioEDadosRelacionados() {
+		// confirma a ação do administrador
+		int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este usuário?",
+				  "Exit", JOptionPane.OK_CANCEL_OPTION);
+		if (op == JOptionPane.OK_OPTION) {
+			try {
+				if (ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO()
+						.remover(userSelecionado.getIdUsuario())) {
+					if(ConexaoSingletonDAO.getInstance().getNotificacaoSqliteDAO().removerTodasNotificacoesUser(userSelecionado.getIdUsuario())) {
+						JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso.", "Sucesso",
+								JOptionPane.INFORMATION_MESSAGE);
+						atualizarPagina();
+						SingletonLogStrategy.getInstance().getLog().registrarLog("Exclusão de usuário",
+								adminLogado.getNome(),
+								adminLogado.getTipo());
+					}else {
+						JOptionPane.showMessageDialog(null, "Erro ao excluir as notificações do usuário.", "Erro",
+								JOptionPane.ERROR);
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Erro ao excluir o usuário.", "Erro",
+							JOptionPane.ERROR);
+				}
+			} catch (HeadlessException | SQLException | IOException e) {
+				try {
+					SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Exclusão de usuário",
+							adminLogado.getNome(),
+							adminLogado.getTipo());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}
 		}
 	}
 

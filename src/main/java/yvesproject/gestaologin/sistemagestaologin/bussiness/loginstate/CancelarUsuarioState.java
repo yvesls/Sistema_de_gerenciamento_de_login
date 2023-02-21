@@ -13,13 +13,11 @@ public class CancelarUsuarioState extends UsuarioState {
 	public CancelarUsuarioState(Usuario user) {
 		super(user);
 		user.setState("cancelado");
-		ConexaoSingletonDAO.configurarSingleton(new FactorySQLiteDAO());
 		try {
 			if(ConexaoSingletonDAO.getInstance().getUsuarioSqliteDAO().atualizarStateUsuario(user)) {
 				JOptionPane.showMessageDialog(null, "Situação do usuário atualizada!");
 			}
 		} catch (HeadlessException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
