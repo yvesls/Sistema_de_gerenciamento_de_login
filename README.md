@@ -23,20 +23,20 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 <h3 align="center">Tela de login</h3>
 
 <p align="center"><img width="80%" src="img/login.png"></img></p>
-
+<br>
 <h3 align="center">Tela principal do administrador</h3>
 
 <p align="center"><img width="80%" src="img/principal_admin.png"></img></p> 
-
+<br>
 <h3 align="center">Tela de novas notificações endereçadas ao administrador</h3>
 
 <p align="center"><img width="80%" src="img/notificacoes_admin.png"></img></p> 
-
+<br>
 <h3 align="center">Registro de log. Tela de configuração e documento dos registros</h3>
 
 <p align="center"><img width="80%" src="img/conf_tela.png"></img></p> 
 <p align="center"><img width="80%" src="img/conf_registro.png"></img></p> 
-
+<br>
 <br> 
 
 # 📝 Requisitos e recomendações
