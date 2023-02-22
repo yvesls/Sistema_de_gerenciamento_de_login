@@ -10,7 +10,7 @@
   <a href="#-requsitos-e-recomendações">Requisitos e recomendações</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
-<p align="center"><img width="30%" height="30%" src="img/logo_ufes.png"></img></p>
+<p align="center"><img width="30%" height="30%" src="img/Logo_Ufes.png"></img></p>
 
 # 💻 Sobre o projeto 
 
