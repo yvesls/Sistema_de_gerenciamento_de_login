@@ -46,7 +46,7 @@ public class NotificacoesUsuarioView {
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		model = new DefaultTableModel();
-		Object[] column1 = { "id", "Descrição", "status", "Data" };
+		Object[] column1 = {"Id", "Descrição", "Data", "Status"};
 		model.setColumnIdentifiers(column1);
 		table.setModel(model);
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());

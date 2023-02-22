@@ -1,7 +1,5 @@
 <h1 align="center"> Sistema de gestão de login </h1>
 
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/souzalavs/Compositions-API/blob/main/LICENSE)
-
 <br> 
 
 <p align="center"> Projeto desenvolvido com Java e sqlite.</p> 
@@ -28,42 +26,39 @@ Tela de login
 
 Tela principal do administrador
 
-<p><img width="100%" height="100%" src="img/seach_by_title.png"></img></p> 
+<p><img width="100%" height="100%" src="img/principal_admin.png"></img></p> 
 
-Tela do painel do administrador
+Tela de novas notificações endereçadas ao administrador
 
-<p><img width="100%" height="100%" src="img/admin_panel.png"></img></p> 
-
-Tela de novas notificações endereçadas ao usuário
-
-<p><img width="100%" height="100%" src="img/doc.png"></img></p> 
+<p><img width="100%" height="100%" src="img/notificacoes_admin.png"></img></p> 
 
 Registro de log. Tela de configuração e documento dos registros
 
-<p><img width="100%" height="100%" src="img/post_test.png"></img></p> 
-<p><img width="100%" height="100%" src="img/post_test_response.png"></img></p> 
+<p><img width="100%" height="100%" src="img/conf_tela.png"></img></p> 
+<p><img width="100%" height="100%" src="img/conf_registro.png"></img></p> 
 
 <br> 
 
 # 📝 Requisitos e recomendações
 
-PARA QUE O PROJETO FUNCIONE: 
-1.1- 	Importe o projeto no netbeans, clique com o segundo botão do mouse no projeto e clique em "construir com dependências".
-1.2- 	Importe o projeto no eclipse, clique com o segundo botão do mouse no projeto e clique em "maven"->"update project".
-2-	  Execute o App.java do projeto.
+PARA QUE O PROJETO FUNCIONE: <br>
+1.1- 	Importe o projeto no netbeans, clique com o segundo botão do mouse no projeto e clique em "construir com dependências". <br>
+1.2- 	Importe o projeto no eclipse, clique com o segundo botão do mouse no projeto e clique em "maven"->"update project". <br>
+2-	  Execute o App.java do projeto. <br>
 
 REQUISITOS:
 - Java 11 ou superior.
 
 OBS: 
-- Para logar como administrador: 
-Login: joaquim.silveira@user.com
-Senha: Joa$674
+- Para logar como administrador: <br>
+Login: joaquim.silveira@user.com <br>
+Senha: Joa$674<br>
 
-- Para logar como um usuário comum já criado (caso não queira criar um): 
-Login: goodman.saul@user.com
-Senha: Soul#14
+- Para logar como um usuário comum já criado (caso não queira criar um): <br>
+Login: goodman.saul@user.com <br>
+Senha: Soul#14 <br>
 
+Pode ser que seja necessário digitar o login ao invés de copiar e colar. <br>
 # ✒️ Autor
 
 Yves Lima Silva
