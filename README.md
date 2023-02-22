@@ -18,6 +18,8 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 
 <a href="https://docs.google.com/document/d/1PVy3rGxElo1ZvVqJp5bf8mFNGYGrkdYmF1C5duBcrVQ/edit"> Requisitos para o trabalho</a>
 
+<br> 
+
 # 📸 Layouts 
 
 <h3 align="center">Tela de login</h3>
@@ -36,7 +38,7 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 
 <p align="center"><img width="80%" src="img/conf_tela.png"></img></p> 
 <p align="center"><img width="80%" src="img/conf_registro.png"></img></p> 
-<br>
+
 <br> 
 
 # 📝 Requisitos e recomendações
@@ -59,6 +61,9 @@ Login: goodman.saul@user.com <br>
 Senha: Soul#14 <br>
 
 Pode ser que seja necessário digitar o login ao invés de copiar e colar. <br>
+
+<br> 
+
 # ✒️ Autor
 
 Yves Lima Silva
