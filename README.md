@@ -22,20 +22,20 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 
 Tela de login
 
-<p><div width="10%"></div><img width="80%" src="img/login.png"></img><div width="10%"></div></p>
+<p align="center"><img width="80%" src="img/login.png"></img></p>
 
 Tela principal do administrador
 
-<p><img width="100%" style="padding: 0 10%;" src="img/principal_admin.png"></img></p> 
+<p align="center"><img width="80%" src="img/principal_admin.png"></img></p> 
 
 Tela de novas notificações endereçadas ao administrador
 
-<p><img width="100%" style="padding: 0 10%;" src="img/notificacoes_admin.png"></img></p> 
+<p align="center"><img width="80%" src="img/notificacoes_admin.png"></img></p> 
 
 Registro de log. Tela de configuração e documento dos registros
 
-<p><img width="100%" style="padding: 0 10%;" src="img/conf_tela.png"></img></p> 
-<p><img width="100%" style="padding: 0 10%;" src="img/conf_registro.png"></img></p> 
+<p align="center"><img width="80%" src="img/conf_tela.png"></img></p> 
+<p align="center"><img width="80%" src="img/conf_registro.png"></img></p> 
 
 <br> 
 
