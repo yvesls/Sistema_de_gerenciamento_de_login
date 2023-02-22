@@ -125,7 +125,7 @@
   "tipoUsuario" : "usuario",
   "mensagemErro" : null
 }, {
-  "operacao" : "Leitura de notificações",
+  "operacao" : "Envio de notificações",
   "nome" : "Robert Ronny Richard",
   "data" : "22/02/2023",
   "hora" : "12:17:46",

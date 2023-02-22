@@ -110,7 +110,7 @@ public class RegistrarPresenter {
 							}
 						} catch (HeadlessException | SQLException | IOException e) {
 							try {
-								SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Leitura de notificações",
+								SingletonLogStrategy.getInstance().getLog().registrarErroLog(e.getMessage(), "Envio de notificações",
 										novoUsuario.getNome(),
 										novoUsuario.getTipo());
 							} catch (IOException e1) {
