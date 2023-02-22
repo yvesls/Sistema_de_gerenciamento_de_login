@@ -20,7 +20,7 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 
 # 📸 Layouts 
 
-Tela de login
+<h3 align="center">Tela de login</h3>
 <hr>
 <p align="center"><img width="80%" src="img/login.png"></img></p>
 
