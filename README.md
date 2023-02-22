@@ -7,7 +7,7 @@
 <p align="center">
   <a href="#-sobre-o-projeto">Sobre o projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 
   <a href="#-layouts">Layouts</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-requsitos-e-recomendações">Requisitos e recomendações</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="#-requisitos-e-recomendações">Requisitos e recomendações</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
 <p align="center"><img width="30%" height="30%" src="img/Logo_Ufes.png"></img></p>
@@ -22,20 +22,20 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 
 Tela de login
 
-<p><img width="100%" height="100%" src="img/login.png"></img></p>
+<p><img width="100%" style="padding: 0 10%;" src="img/login.png"></img></p>
 
 Tela principal do administrador
 
-<p><img width="100%" height="100%" src="img/principal_admin.png"></img></p> 
+<p><img width="100%" style="padding: 0 10%;" src="img/principal_admin.png"></img></p> 
 
 Tela de novas notificações endereçadas ao administrador
 
-<p><img width="100%" height="100%" src="img/notificacoes_admin.png"></img></p> 
+<p><img width="100%" style="padding: 0 10%;" src="img/notificacoes_admin.png"></img></p> 
 
 Registro de log. Tela de configuração e documento dos registros
 
-<p><img width="100%" height="100%" src="img/conf_tela.png"></img></p> 
-<p><img width="100%" height="100%" src="img/conf_registro.png"></img></p> 
+<p><img width="100%" style="padding: 0 10%;" src="img/conf_tela.png"></img></p> 
+<p><img width="100%" style="padding: 0 10%;" src="img/conf_registro.png"></img></p> 
 
 <br> 
 
