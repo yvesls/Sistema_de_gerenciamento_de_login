@@ -22,7 +22,7 @@ Sistemas de gestão de login é um projeto individual realizado para a matéria 
 
 Tela de login
 
-<p><img width="100%" style="padding: 0 10%;" src="img/login.png"></img></p>
+<p><img width="100%" style="padding: 0 20%;" src="img/login.png"></img></p>
 
 Tela principal do administrador
 
